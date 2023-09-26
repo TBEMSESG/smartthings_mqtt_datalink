@@ -42,7 +42,6 @@ function createDeviceList() {
 };
 
 function createTable(e){
-        console.log('received Data :' , e)
 
         const newTr = document.createElement('tr');
         
