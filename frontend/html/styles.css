@@ -1,0 +1,22 @@
+.hidden, .deviceId {
+    display: none;
+}
+
+.main_table {
+    display: block;
+    height: 400px;
+    overflow-y: scroll;
+    padding: 0 20px;
+}
+td {
+    border-bottom: 1px solid black;
+    padding: 5px 10px;
+}
+
+.table_title {
+font-weight: bold;
+text-align: center;
+position: sticky;
+top: 0;
+background-color: white;
+}

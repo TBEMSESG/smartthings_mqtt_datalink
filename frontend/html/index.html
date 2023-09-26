@@ -3,10 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Smartthing to DataLink</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    
+    <header >
+        <div class="title">
+            <h1>Smartthings to DataLink Tool</h1>
+        </div>
+    </header>
+    <section class="section-secrets">
+        <div>
+            <div class="secrets">
+                <p>Enter your Smarrthings Token here:</p>
+                <input type="password" class="token-input"><button>Get Devices</button>
+            </div>
+        </div>
+    </section>
+    <section class="section-inputs">
+        <div>
+            <div class="device-table">
+                <h3>Devices</h3>
+                <table class="main_table">
+                    <tr class="table_title">
+                        <td class="hidden">DeviceId</td><td>Name</td><td>Description</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </section>
+<script src="index.js"></script>
 </body>
 </html>
