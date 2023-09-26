@@ -11,13 +11,11 @@ console.log(table)
 
 //listeners
 getDevicesBtn.addEventListener('click', createDeviceList);
-
+table.addEventListener('click', selectItem );
 
 function createDeviceList() {
     token = tokenInput.value;
     let data = {"token":token}
-    // console.log('data : ', JSON.stringify(data))
-    
     const headers = {
         method: "POST",
         body : JSON.stringify(data),
@@ -60,8 +58,42 @@ function createTable(e){
         newTr.appendChild(newTd1);
         newTr.appendChild(newTd2);
         
-        console.log(newTr)
         table.appendChild(newTr);
         
         // tr = document.querySelectorAll('.table_item')
+};
+function selectItem(e) {
+    let comm ="";
+    comm = e.target.parentElement.childNodes[0].innerText;
+    //console.log(comm)
+    
+    fetchDetails(comm);
+};
+
+function fetchDetails(val) {
+    let data = {"token":token}
+    const headers = {
+        method: "POST",
+        body : JSON.stringify(data),
+        headers: {
+            "Content-Type": "application/json"
+                  },
+        mode: "cors",
+        cache: "default",
+      };
+    return fetch(`/api/devices/${val}`, headers)
+    .then((response) => {
+        // Check if the fetch was successful
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        //console.log(res)
+    return response.json();
+    })
+    .then((data) => {
+        console.log(data.components.main);
+    })
+    .catch((error) => {
+        console.error('Fetch error!!!:', error);
+    });
 }
