@@ -69,7 +69,6 @@ function selectItem(e) {
     
     fetchDetails(comm);
 };
-
 function fetchDetails(val) {
     let data = {"token":token}
     const headers = {
@@ -92,8 +91,13 @@ function fetchDetails(val) {
     })
     .then((data) => {
         console.log(data.components.main);
+        details(data)
     })
     .catch((error) => {
         console.error('Fetch error!!!:', error);
     });
+}
+
+let details = function details(data) {
+    console.log(data)
 }
