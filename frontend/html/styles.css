@@ -1,9 +1,12 @@
 .hidden, .deviceId {
     display: none;
 }
-
+body {
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
 .main_table {
-    display: block;
+    /* display: block; */
     height: 400px;
     max-width: 50%;
     overflow-y: scroll;
@@ -20,4 +23,23 @@ text-align: center;
 position: sticky;
 top: 0;
 background-color: white;
+}
+
+.section-inputs {
+    margin-top: 20px;
+    display: flex;
+}
+
+.device-table , .device-details {
+    height: 400px;
+    overflow-y: scroll;
+    padding: 5px 10px;
+
+}
+
+.table_item:hover {
+    background-color: bisque;
+}
+.table_item_deep:hover {
+    background-color: rgb(196, 255, 196);
 }

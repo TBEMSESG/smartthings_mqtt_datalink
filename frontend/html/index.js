@@ -4,15 +4,37 @@ const tokenInput = document.querySelector('.token-input');
 const getDevicesBtn = document.querySelector('.secrets button');
 const table = document.querySelector('.main_table');
 const container = document.getElementById('dataList');
+let detail = document.querySelector('.table_item_deep')
 let tr = [];
 
 let token = '';
 let details = '';
-console.log(table)
+console.log(detail)
 
 //listeners
 getDevicesBtn.addEventListener('click', createDeviceList);
 table.addEventListener('click', selectItem );
+detail.addEventListener('click', showSelection );
+
+function showSelection(event) {
+    let comm ="";
+    // comm = e.target.parentElement.childNodes[0].innerText;
+    //comm = e.target.parentElement;
+    
+    let path = [];
+    let currentNode = event.currentTarget;
+
+    while (currentNode && currentNode !== container) {
+        path.unshift(currentNode.value); // Add to the start of the array to keep the order
+        currentNode = currentNode.parentNode.closest('li'); // Find the closest parent <li>
+    }
+
+    alert(path.join(' > '));  // Display the path
+    
+    //console.log(e)
+    
+    
+};
 
 function createDeviceList() {
     token = tokenInput.value;
@@ -101,6 +123,7 @@ function fetchDetails(val) {
 }
 
 function createList(obj, parentElement) {
+    //creates list of details about the selected device.
     const ul = document.createElement('ul');
     container.innerHTML = "";
     for (let key in obj) {
@@ -110,7 +133,12 @@ function createList(obj, parentElement) {
             createList(obj[key], li);
         } else {
             li.textContent = `${key} is ${obj[key]}`;
+            li.classList.add('table_item_deep');
+            // Add event listener to the .deepest element
+            li.addEventListener('click', showSelection);
+
         }
+        li.classList.add('table_item');
         ul.appendChild(li);
     }
     
