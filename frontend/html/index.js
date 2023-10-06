@@ -3,6 +3,7 @@
 const tokenInput = document.querySelector('.token-input');
 const getDevicesBtn = document.querySelector('.secrets button');
 const table = document.querySelector('.main_table');
+const container = document.getElementById('dataList');
 let tr = [];
 
 let token = '';
@@ -38,7 +39,6 @@ function createDeviceList() {
             })
         .catch((err)=> console.log(err));
 };
-
 function createTable(e){
 
         const newTr = document.createElement('tr');
@@ -70,6 +70,7 @@ function selectItem(e) {
     fetchDetails(comm);
 };
 function fetchDetails(val) {
+    
     let data = {"token":token}
     const headers = {
         method: "POST",
@@ -87,14 +88,32 @@ function fetchDetails(val) {
             throw new Error(`HTTP error! Status: ${response.status}`);
         }
         //console.log(res)
-    return response.json();
+        return response.json();
     })
     .then((data) => {
         console.log(data.components.main);
         details = data.components.main;
+        createList(details,container)
     })
     .catch((error) => {
         console.error('Fetch error!!!:', error);
     });
+}
+
+function createList(obj, parentElement) {
+    const ul = document.createElement('ul');
+    container.innerHTML = "";
+    for (let key in obj) {
+        const li = document.createElement('li');
+        if (typeof obj[key] === 'object' && obj[key] !== null) {
+            li.textContent = key;
+            createList(obj[key], li);
+        } else {
+            li.textContent = `${key} is ${obj[key]}`;
+        }
+        ul.appendChild(li);
+    }
+    
+    parentElement.appendChild(ul);
 }
 
