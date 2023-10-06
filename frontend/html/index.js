@@ -6,7 +6,7 @@ const table = document.querySelector('.main_table');
 let tr = [];
 
 let token = '';
-
+let details = '';
 console.log(table)
 
 //listeners
@@ -91,13 +91,10 @@ function fetchDetails(val) {
     })
     .then((data) => {
         console.log(data.components.main);
-        details(data)
+        details = data.components.main;
     })
     .catch((error) => {
         console.error('Fetch error!!!:', error);
     });
 }
 
-let details = function details(data) {
-    console.log(data)
-}

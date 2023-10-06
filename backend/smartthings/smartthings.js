@@ -1,5 +1,5 @@
 const smartthingsAPIUrl= 'https://api.smartthings.com/v1/'
-
+const dotEnv = require('dotenv');
 
 async function getLocations(token) {
     const headers = {
