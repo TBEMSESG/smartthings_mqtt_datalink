@@ -92,7 +92,7 @@ function selectItem(e) {
     fetchDetails(comm);
 };
 function fetchDetails(val) {
-    
+    console.log('clicked element',val)
     let data = {"token":token}
     const headers = {
         method: "POST",
@@ -113,7 +113,7 @@ function fetchDetails(val) {
         return response.json();
     })
     .then((data) => {
-        console.log(data.components.main);
+        console.log(data);
         details = data.components.main;
         createList(details,container)
     })
