@@ -1,4 +1,5 @@
 const smartthingsAPIUrl= 'https://api.smartthings.com/v1/'
+const webhookURL = ''
 const dotEnv = require('dotenv');
 
 async function getLocations(token) {
@@ -109,7 +110,8 @@ async function getDevices(token) {
     .catch((err)=> console.log(err));
 };
 async function getDeviceFullStatus(token, deviceId) {
-    const headers = {
+
+  const headers = {
         method: "GET",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -148,4 +150,37 @@ async function getRoomDetails(token, locationId, roomId) {
       
 }
 
+async function getSubscriptionsList(token, deviceId) {
+  const body = {
+    sourceType: 'DEVICE',
+   device: {
+       deviceId: deviceId,
+       componentId: 'main',
+       capability: 'motionSensor',
+       attribute: 'motion',
+       stateChangeOnly: true,
+       subscriptionName: 'motionSubscription',
+       value: 'active'  // Only notify when motion is detected
+   },
+   target: webhookURL  // Replace with your webhookURL
+ };
+   const headers = {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(body),
+      mode: "no-cors",
+      cache: "default",
+    };
+
+  return fetch(`${smartthingsAPIUrl}/subscriptions/`, headers)
+  .then((response) => {
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+      return response.json();
+    })
+  .catch((err)=> console.log(err));
+};
 module.exports = {getDevices, getDeviceFullStatus}
