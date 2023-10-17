@@ -4,9 +4,11 @@ const tokenInput = document.querySelector('.token-input');
 const getDevicesBtn = document.querySelector('.secrets button');
 const table = document.querySelector('.main_table');
 const container = document.getElementById('dataList');
-let detail = document.querySelector('.table_item_deep')
+const h3Name = document.querySelector('.h3-name');
+let detail = document.querySelector('.table_item_deep');
 let tr = [];
-
+let deviceName = "";
+let deviceIdGlobal ="";
 let token = '';
 let details = '';
 console.log(detail)
@@ -17,19 +19,27 @@ table.addEventListener('click', selectItem );
 detail.addEventListener('click', showSelection );
 
 function showSelection(event) {
-    let comm ="";
-    // comm = e.target.parentElement.childNodes[0].innerText;
-    //comm = e.target.parentElement;
     
     let path = [];
     let currentNode = event.currentTarget;
+    // console.log(currentNode);
 
     while (currentNode && currentNode !== container) {
-        path.unshift(currentNode.value); // Add to the start of the array to keep the order
+        const text = currentNode.childNodes[0].nodeValue.trim();
+        if (text) { 
+            path.unshift(text); 
+        }
+        //path.unshift(currentNode.innerText); // Add to the start of the array to keep the order
+        //console.log(path)
+        //console.log(currentNode);
         currentNode = currentNode.parentNode.closest('li'); // Find the closest parent <li>
     }
+    path.unshift(deviceIdGlobal,deviceName)
 
-    alert(path.join(' > '));  // Display the path
+    //let objPath = {}
+    
+    //console.log(path);
+    alert( path.join(' > '));  // Display the path
     
     //console.log(e)
     
@@ -86,13 +96,16 @@ function createTable(e){
 };
 function selectItem(e) {
     let comm ="";
+    let name ="";
     comm = e.target.parentElement.childNodes[0].innerText;
+    name = e.target.parentElement.childNodes[1].innerText;
+    deviceIdGlobal = comm;
     //console.log(comm)
     
-    fetchDetails(comm);
+    fetchDetails(comm, name);
 };
-function fetchDetails(val) {
-    console.log('clicked element',val)
+function fetchDetails(val, name) {
+    console.log('clicked element',val, deviceIdGlobal)
     let data = {"token":token}
     const headers = {
         method: "POST",
@@ -115,30 +128,35 @@ function fetchDetails(val) {
     .then((data) => {
         console.log(data);
         details = data.components.main;
-        createList(details,container)
+        createList(details,container, name)
     })
     .catch((error) => {
         console.error('Fetch error!!!:', error);
     });
 }
 
-function createList(obj, parentElement) {
+function createList(obj, parentElement, name) {
     //creates list of details about the selected device.
     const ul = document.createElement('ul');
     container.innerHTML = "";
+    h3Name.textContent = name;
+    deviceName = name;
     for (let key in obj) {
         const li = document.createElement('li');
         if (typeof obj[key] === 'object' && obj[key] !== null) {
             li.textContent = key;
-            createList(obj[key], li);
+            createList(obj[key], li, name);
         } else {
-            li.textContent = `${key} is ${obj[key]}`;
+            li.textContent = obj[key];
             li.classList.add('table_item_deep');
+
             // Add event listener to the .deepest element
             li.addEventListener('click', showSelection);
 
         }
+
         li.classList.add('table_item');
+        
         ul.appendChild(li);
     }
     

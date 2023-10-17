@@ -126,6 +126,7 @@ async function getDeviceFullStatus(token, deviceId) {
           throw new Error(`HTTP error! Status: ${response.status}`);
         }
         return response.json();
+        
       })
       .catch((err)=> console.log(err));
 }
