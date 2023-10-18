@@ -20,7 +20,8 @@ router.post('/services', function (req, res) {
  
     smartthings.writeService(req.body)
         .then((result) => {
-        res.status(200).send(result); 
+            console.log('result from DB:', result)
+        res.status(200).send(JSON.stringify(result)); 
         })
         .catch((error) => {
             console.error(error);

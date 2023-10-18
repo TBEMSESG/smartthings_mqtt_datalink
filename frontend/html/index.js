@@ -8,6 +8,7 @@ const h3Name = document.querySelector('.h3-name');
 let detail = document.querySelector('.table_item_deep');
 const selectedPath = document.querySelector('.selected-path');
 const selectedDevice = document.querySelector('.selected-device');
+const createServiceBtn = document.querySelector('.create-btn');
 
 let tr = [];
 let deviceName = "";
@@ -20,6 +21,7 @@ console.log(detail)
 getDevicesBtn.addEventListener('click', createDeviceList);
 table.addEventListener('click', selectItem );
 detail.addEventListener('click', showSelection );
+
 
 function showSelection(event) {
     
@@ -83,17 +85,20 @@ function createTable(e){
         const command = document.createElement('td');
         const newTd1 = document.createElement('td');
         const newTd2 = document.createElement('td');
+        const btn = document.createElement('button')
         
         command.innerText= e.deviceId;
         newTd1.innerText= e.label;
         newTd2.innerText= e.name;
-        
+        btn.textContent= 'create';
         newTr.classList.add('table_item');
         command.classList.add('deviceId');
+        btn.classList.add('create-btn')
         
         newTr.appendChild(command);
         newTr.appendChild(newTd1);
         newTr.appendChild(newTd2);
+        newTr.appendChild(btn);
         
         table.appendChild(newTr);
         
@@ -102,13 +107,17 @@ function createTable(e){
 function selectItem(e) {
     let comm ="";
     let name ="";
-    comm = e.target.parentElement.childNodes[0].innerText;
-    name = e.target.parentElement.childNodes[1].innerText;
+    let item = e.target;
+    comm = item.parentElement.childNodes[0].innerText;
+    name = item.parentElement.childNodes[1].innerText;
     deviceIdGlobal = comm;
+    deviceName = name;
     //console.log(comm)
-    selectedDevice.innerHTML = deviceIdGlobal;
-
+    selectedDevice.innerHTML = deviceIdGlobal + ' ' + deviceName;
     fetchDetails(comm, name);
+
+    if (item.classList[0]==='create-btn') createService();
+
 };
 function fetchDetails(val, name) {
     console.log('clicked element',val, deviceIdGlobal)
@@ -169,3 +178,49 @@ function createList(obj, parentElement, name) {
     parentElement.appendChild(ul);
 }
 
+// function createBtnClicked(){
+//         let comm ="";
+//         let name ="";
+       
+//         comm = e.target.parentElement.childNodes[0].innerText;
+//         name = e.target.parentElement.childNodes[1].innerText;
+//         deviceIdGlobal = comm;
+//         deviceName = name;
+//         //console.log(comm)
+
+//         selectedDevice.innerHTML = deviceIdGlobal + ' ' + deviceName;
+    
+//         createService();
+//     };
+
+
+function createService(){
+    console.log('creating services...')
+    let data = {"token":token, "deviceId":deviceIdGlobal, "deviceName":deviceName};
+    const headers = {
+        method: "POST",
+        body : JSON.stringify(data),
+        headers: {
+            "Content-Type": "application/json"
+                  },
+        mode: "cors",
+        cache: "default",
+      };
+    return fetch(`/api/services`, headers)
+        .then((response) => {
+        // Check if the fetch was successful
+        if (!response.ok) {
+            throw new Error(`HTTP error (services)! Status: ${response.status}`);
+        }
+        //console.log(res)
+        console.log('Response is ok -> ', response)
+        response.json();
+        return response;
+    })
+    .then((data) => {
+        console.log(data);
+    })
+    .catch((error) => {
+        console.error('Fetch error!!!:', error);
+    });
+}
