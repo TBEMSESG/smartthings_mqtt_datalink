@@ -210,7 +210,20 @@ async function writeService(data) {
 
   return newData;
 }
+async function getServices() {
 
+  // Use connect method to connect to the server
+  await dbClient.connect();
+  console.log('Connected successfully to server');
+  
+  const db = dbClient.db(dbName);
+  const collection = db.collection('services');
+
+  const findResult = await collection.find({}).toArray();
+  console.log('Found documents =>', findResult);
+
+  return findResult;
+}
 
 
 function makeid() {

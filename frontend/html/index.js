@@ -3,6 +3,7 @@
 const tokenInput = document.querySelector('.token-input');
 const getDevicesBtn = document.querySelector('.secrets button');
 const table = document.querySelector('.main_table');
+const servicesTable = document.querySelector('.services_table');
 const container = document.getElementById('dataList');
 const h3Name = document.querySelector('.h3-name');
 let detail = document.querySelector('.table_item_deep');
@@ -44,12 +45,7 @@ function showSelection(event) {
     //let objPath = {}
     
     //console.log(path);
-    selectedPath.innerText = path.join(' > ')
-
-    //alert( path.join(' > '));  // Display the path
-    
-    //console.log(e)
-    
+    selectedPath.innerText = path.join(' > ')    
     
 };
 
@@ -113,7 +109,7 @@ function selectItem(e) {
     deviceIdGlobal = comm;
     deviceName = name;
     //console.log(comm)
-    selectedDevice.innerHTML = deviceIdGlobal + ' ' + deviceName;
+    // selectedDevice.innerHTML = deviceIdGlobal + ' ' + deviceName;
     fetchDetails(comm, name);
 
     if (item.classList[0]==='create-btn') createService();
@@ -177,21 +173,56 @@ function createList(obj, parentElement, name) {
     
     parentElement.appendChild(ul);
 }
+function getServicesList() {
 
-// function createBtnClicked(){
-//         let comm ="";
-//         let name ="";
-       
-//         comm = e.target.parentElement.childNodes[0].innerText;
-//         name = e.target.parentElement.childNodes[1].innerText;
-//         deviceIdGlobal = comm;
-//         deviceName = name;
-//         //console.log(comm)
-
-//         selectedDevice.innerHTML = deviceIdGlobal + ' ' + deviceName;
+    const headers = {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json"
+                  },
+        mode: "cors",
+        cache: "default",
+      };
     
-//         createService();
-//     };
+    return fetch(`/api/services`, headers)
+        .then((response) => {
+            if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            return response.json();
+        }).then((data) => {
+            data.forEach((element) => {
+             createServicestable(element)});
+            })
+        .catch((err)=> console.log(err));
+};
+
+function createServicestable(e){
+    // to be modified, not yet ready
+        const newTr = document.createElement('tr');
+        
+        const command = document.createElement('td');
+        const newTd1 = document.createElement('td');
+        const newTd2 = document.createElement('td');
+        const btn = document.createElement('button')
+        
+        command.innerText= e.deviceId;
+        newTd1.innerText= e.label;
+        newTd2.innerText= e.name;
+        btn.textContent= 'create';
+        newTr.classList.add('table_item');
+        command.classList.add('deviceId');
+        btn.classList.add('create-btn')
+        
+        newTr.appendChild(command);
+        newTr.appendChild(newTd1);
+        newTr.appendChild(newTd2);
+        newTr.appendChild(btn);
+        
+        table.appendChild(newTr);
+        
+        // tr = document.querySelectorAll('.table_item')
+};
 
 
 function createService(){
@@ -213,8 +244,8 @@ function createService(){
             throw new Error(`HTTP error (services)! Status: ${response.status}`);
         }
         //console.log(res)
-        console.log('Response is ok -> ', response)
-        response.json();
+        // console.log('Response is ok -> ', response)
+        // response.json();
         return response;
     })
     .then((data) => {
