@@ -18,15 +18,17 @@ router.post('/devices', function (req, res) {
 
 router.post('/services', function (req, res) {
  
-    smartthings.getDevices(req.body.token)
+    smartthings.writeService(req.body)
         .then((result) => {
-        res.status(200).send(result.items); 
+        res.status(200).send(result); 
         })
         .catch((error) => {
             console.error(error);
             res.status(500).send('Internal Server Error');
-        });
+        })
+        .finally(() => smartthings.dbClient.close());
 });
+
 
 router.post('/devices/:id', function (req, res) {
     smartthings.getDeviceFullStatus(req.body.token, req.params.id)
@@ -38,9 +40,6 @@ router.post('/devices/:id', function (req, res) {
             res.status(500).send('Internal Server Error');
         });
 });
-
-
-
 
 
 module.exports = router
