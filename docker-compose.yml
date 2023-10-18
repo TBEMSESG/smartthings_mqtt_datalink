@@ -1,12 +1,12 @@
 version: '3'
 
 services:
-  # db:
-  #   build: ./db/
-  #   # networks:
-  #   #   - traefik-proxy
-  #   ports:
-  #     - "27017"
+  db:
+    build: ./db/
+    # networks:
+    #   - traefik-proxy
+    ports:
+      - "27017"
 
   backend:
     build: ./backend/

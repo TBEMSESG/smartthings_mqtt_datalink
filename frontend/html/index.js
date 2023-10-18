@@ -6,6 +6,9 @@ const table = document.querySelector('.main_table');
 const container = document.getElementById('dataList');
 const h3Name = document.querySelector('.h3-name');
 let detail = document.querySelector('.table_item_deep');
+const selectedPath = document.querySelector('.selected-path');
+const selectedDevice = document.querySelector('.selected-device');
+
 let tr = [];
 let deviceName = "";
 let deviceIdGlobal ="";
@@ -39,7 +42,9 @@ function showSelection(event) {
     //let objPath = {}
     
     //console.log(path);
-    alert( path.join(' > '));  // Display the path
+    selectedPath.innerText = path.join(' > ')
+
+    //alert( path.join(' > '));  // Display the path
     
     //console.log(e)
     
@@ -101,7 +106,8 @@ function selectItem(e) {
     name = e.target.parentElement.childNodes[1].innerText;
     deviceIdGlobal = comm;
     //console.log(comm)
-    
+    selectedDevice.innerHTML = deviceIdGlobal;
+
     fetchDetails(comm, name);
 };
 function fetchDetails(val, name) {
