@@ -31,7 +31,7 @@ background-color: white;
 }
 
 .device-table , .device-details {
-    height: 400px;
+    max-height: 400px;
     overflow-y: scroll;
     padding: 5px 10px;
 
@@ -45,4 +45,23 @@ background-color: white;
 }
 .section-create-service {
     margin-top: 20px;
+}
+.services {
+    width: 90%;
+    align-self: center;
+    border: 1px solid black;
+    text-align: center;
+    padding: 20px;
+    margin: auto;
+}
+.services h3 {
+    margin-top: 0;
+    background-color: aquamarine;
+}
+.services-table{
+    max-height: 400px;
+    overflow-y: scroll;
+    padding: 5px 10px;
+    width: auto;
+    margin: auto;
 }
