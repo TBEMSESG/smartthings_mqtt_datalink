@@ -115,6 +115,7 @@ async function getDevices(token) {
     .catch((err)=> console.log(err));
 };
 async function getDeviceFullStatus(token, deviceId) {
+  console.log(`REceived full status request for ${deviceId}`)
 
   const headers = {
         method: "GET",
@@ -124,7 +125,6 @@ async function getDeviceFullStatus(token, deviceId) {
         mode: "no-cors",
         cache: "default",
       };;
-
     return fetch(`${smartthingsAPIUrl}/devices/${deviceId}/status`, headers)
     .then((response) => {
         if (!response.ok) {
@@ -224,7 +224,20 @@ async function getServices() {
 
   return findResult;
 }
+async function getServiceDetails(sId) {
 
+  // Use connect method to connect to the server
+  await dbClient.connect();
+  console.log('Connected successfully to server');
+  
+  const db = dbClient.db(dbName);
+  const collection = db.collection('services');
+
+  const findResult = await collection.find({serviceId:sId}).toArray();
+  console.log('Found documents =>', findResult);
+
+  return findResult;
+}
 
 function makeid() {
   let result = '';
@@ -239,4 +252,4 @@ function makeid() {
 }
 
 
-module.exports = {getDevices, getDeviceFullStatus, writeService, getServices,dbClient}
+module.exports = {getDevices, getDeviceFullStatus, writeService, getServiceDetails, getServices,dbClient}
