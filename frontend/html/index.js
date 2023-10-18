@@ -10,6 +10,10 @@ let detail = document.querySelector('.table_item_deep');
 const selectedPath = document.querySelector('.selected-path');
 const selectedDevice = document.querySelector('.selected-device');
 const createServiceBtn = document.querySelector('.create-btn');
+const host = document.location.host;
+console.log("the host is: ", host);
+const hostUrl = host.split(':');
+console.log(hostUrl)
 
 let tr = [];
 let deviceName = "";
@@ -21,7 +25,8 @@ console.log(detail)
 //listeners
 getDevicesBtn.addEventListener('click', createDeviceList);
 table.addEventListener('click', selectItem );
-detail.addEventListener('click', showSelection );
+//detail.addEventListener('click', showSelection );
+document.addEventListener('DOMContentLoaded', getServicesList)
 
 
 function showSelection(event) {
@@ -172,9 +177,10 @@ function createList(obj, parentElement, name) {
     }
     
     parentElement.appendChild(ul);
+
 }
 function getServicesList() {
-
+    let serviceList = [];
     const headers = {
         method: "GET",
         headers: {
@@ -191,7 +197,8 @@ function getServicesList() {
             }
             return response.json();
         }).then((data) => {
-            data.forEach((element) => {
+            serviceList = data;
+            serviceList.forEach((element) => {
              createServicestable(element)});
             })
         .catch((err)=> console.log(err));
@@ -201,27 +208,22 @@ function createServicestable(e){
     // to be modified, not yet ready
         const newTr = document.createElement('tr');
         
-        const command = document.createElement('td');
-        const newTd1 = document.createElement('td');
-        const newTd2 = document.createElement('td');
-        const btn = document.createElement('button')
+        const name = document.createElement('td');
+        const url = document.createElement('td');
+        // const btn = document.createElement('button')
         
-        command.innerText= e.deviceId;
-        newTd1.innerText= e.label;
-        newTd2.innerText= e.name;
-        btn.textContent= 'create';
+        name.innerText= e.deviceName;
+        url.innerText= `http://${hostUrl[0]}:3000/services/${e.serviceId}`;
+        // btn.textContent= 'create';
         newTr.classList.add('table_item');
-        command.classList.add('deviceId');
-        btn.classList.add('create-btn')
         
-        newTr.appendChild(command);
-        newTr.appendChild(newTd1);
-        newTr.appendChild(newTd2);
-        newTr.appendChild(btn);
+        // btn.classList.add('create-btn')
         
-        table.appendChild(newTr);
+        newTr.appendChild(name);
+        newTr.appendChild(url);
+                
+        servicesTable.appendChild(newTr);
         
-        // tr = document.querySelectorAll('.table_item')
 };
 
 
@@ -250,6 +252,7 @@ function createService(){
     })
     .then((data) => {
         console.log(data);
+        getServicesList();
     })
     .catch((error) => {
         console.error('Fetch error!!!:', error);

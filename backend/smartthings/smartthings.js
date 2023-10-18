@@ -239,4 +239,4 @@ function makeid() {
 }
 
 
-module.exports = {getDevices, getDeviceFullStatus, writeService, dbClient}
+module.exports = {getDevices, getDeviceFullStatus, writeService, getServices,dbClient}

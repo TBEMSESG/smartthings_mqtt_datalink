@@ -30,7 +30,19 @@ router.post('/services', function (req, res) {
         .finally(() => smartthings.dbClient.close());
 });
 
-
+router.get('/services', function (req, res) {
+ 
+    smartthings.getServices()
+        .then((result) => {
+        
+        res.status(200).send(result); 
+        })
+        .catch((error) => {
+            console.error(error);
+            res.status(500).send('Internal Server Error');
+        })
+        .finally(() => smartthings.dbClient.close());
+});
 router.post('/devices/:id', function (req, res) {
     smartthings.getDeviceFullStatus(req.body.token, req.params.id)
         .then((result) => {
