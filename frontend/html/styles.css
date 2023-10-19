@@ -1,9 +1,26 @@
 .hidden, .deviceId {
     display: none;
 }
+
 body {
     margin: 0;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+header {
+    padding: 20px;
+    width: 90%;
+    margin: 20px auto;
+    border: 2px solid black;
+    box-shadow: 3px 3px rgb(0, 0, 0);
+}
+
+.hidden {
+    display:none;
+}
+
+.buttons {
+    display: flex;
+    gap: 20px;
 }
 .main_table {
     /* display: block; */
@@ -15,6 +32,19 @@ body {
 td {
     border-bottom: 1px solid black;
     padding: 5px 10px;
+}
+
+.smartthings, .controls , .services{
+    border: 1px solid black;
+    padding: 20px;
+    width: 90%;
+    margin: 20px auto;
+    box-shadow: 3px 3px rgb(0, 0, 0);
+}
+button {
+    background-color: azure;
+    border: .2px solid gray;
+    border-radius: 7px;
 }
 
 .table_title {

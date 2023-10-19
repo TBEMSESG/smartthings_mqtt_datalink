@@ -1,21 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Smartthing to DataLink</title>
-    <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-    <header >
-        <div class="title">
-            <h1>Smartthings to DataLink Tool</h1>
-        </div>
-    </header>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Smartthing to DataLink</title>
+        <link rel="stylesheet" href="styles.css">
+    </head>
+    <body>
+        <header >
+            <div class="title">
+                <h1>Smartthings to DataLink Tool</h1>
+            </div>
+        </header>
+        <section class="services">
+            <div>
+                <div class="services-table">
+                    <h3>Currently available Services</h3>
+                    <table class="services_table">
+                        <tr class="table_title">
+                            <td>Name</td><td>URL</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </section>
+        <section class="controls">
+            <div class="buttons">
+                <div class="smartthings-btn"><button >Smartthings</button></div>
+                <div class="shelly-btn"><button>Shelly</button></div>
+            </div>
+        </section>
+        <section class="smartthings hidden">
     <section class="section-secrets">
         <div>
             <div class="secrets">
-                <p>Enter your Smarrthings Token here:</p>
+                <p>Enter your Smartthings Token here:</p>
                 <input type="password" class="token-input"><button>Get Devices</button>
             </div>
         </div>
@@ -44,19 +63,8 @@
         <!-- <div class="create-service-btn">
             <input type="button" value="Create Service">
         </div> -->
-    </section>    
-    <section class="services">
-        <div>
-            <div class="services-table">
-                <h3>Currently available Services</h3>
-                <table class="services_table">
-                    <tr class="table_title">
-                        <td>Name</td><td>URL</td>
-                    </tr>
-                </table>
-            </div>
-        </div>
-    </section>
+    </section>   
+</section>
 <script src="index.js"></script>
 </body>
 </html>

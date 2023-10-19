@@ -10,6 +10,10 @@ let detail = document.querySelector('.table_item_deep');
 const selectedPath = document.querySelector('.selected-path');
 const selectedDevice = document.querySelector('.selected-device');
 const createServiceBtn = document.querySelector('.create-btn');
+const smartthingsSection = document.querySelector('.smartthings');
+const smartthingsBtn = document.querySelector('.smartthings-btn');
+const shellyBtn = document.querySelector('.shelly-btn');
+
 const host = document.location.host;
 console.log("the host is: ", host);
 const hostUrl = host.split(':');
@@ -27,7 +31,7 @@ getDevicesBtn.addEventListener('click', createDeviceList);
 table.addEventListener('click', selectItem );
 //detail.addEventListener('click', showSelection );
 document.addEventListener('DOMContentLoaded', getServicesList)
-
+smartthingsBtn.addEventListener('click', ()=> smartthingsSection.classList.toggle('hidden'))
 
 function showSelection(event) {
     
@@ -213,7 +217,7 @@ function createServicestable(e){
         // const btn = document.createElement('button')
         
         name.innerText= e.deviceName;
-        url.innerText= `http://${hostUrl[0]}:3000/services/${e.serviceId}`;
+        url.innerText= `http://${hostUrl[0]}:3000/services/${e.serviceId}/xml`;
         // btn.textContent= 'create';
         newTr.classList.add('table_item');
         
