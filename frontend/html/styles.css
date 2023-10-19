@@ -34,7 +34,7 @@ td {
     padding: 5px 10px;
 }
 
-.smartthings, .controls , .services{
+.smartthings, .controls , .services, .information{
     border: 1px solid black;
     padding: 20px;
     width: 90%;

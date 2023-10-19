@@ -13,6 +13,8 @@ const createServiceBtn = document.querySelector('.create-btn');
 const smartthingsSection = document.querySelector('.smartthings');
 const smartthingsBtn = document.querySelector('.smartthings-btn');
 const shellyBtn = document.querySelector('.shelly-btn');
+const infoBtn = document.querySelector('.information-btn');
+const instructionsBlock = document.querySelector('.instructions');
 
 const host = document.location.host;
 console.log("the host is: ", host);
@@ -32,6 +34,7 @@ table.addEventListener('click', selectItem );
 //detail.addEventListener('click', showSelection );
 document.addEventListener('DOMContentLoaded', getServicesList)
 smartthingsBtn.addEventListener('click', ()=> smartthingsSection.classList.toggle('hidden'))
+infoBtn.addEventListener('click', ()=> instructionsBlock.classList.toggle('hidden'))
 
 function showSelection(event) {
     
