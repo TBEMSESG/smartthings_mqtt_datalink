@@ -115,7 +115,7 @@ async function getDevices(token) {
     .catch((err)=> console.log(err));
 };
 async function getDeviceFullStatus(token, deviceId) {
-  console.log(`REceived full status request for ${deviceId}`)
+  console.log(`Received full status request for ${deviceId}`)
 
   const headers = {
         method: "GET",
@@ -228,13 +228,13 @@ async function getServiceDetails(sId) {
 
   // Use connect method to connect to the server
   await dbClient.connect();
-  console.log('Connected successfully to server');
+  //console.log('Connected successfully to server');
   
   const db = dbClient.db(dbName);
   const collection = db.collection('services');
 
   const findResult = await collection.find({serviceId:sId}).toArray();
-  console.log('Found documents =>', findResult);
+  //console.log('Found documents =>', findResult);
 
   return findResult;
 }
