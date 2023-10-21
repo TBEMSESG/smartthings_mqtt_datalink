@@ -1,11 +1,11 @@
 const { MongoClient } = require('mongodb');
-
 const smartthingsAPIUrl= 'https://api.smartthings.com/v1/'
 const webhookURL = ''
 const dotEnv = require('dotenv');
 const dbUrl = 'mongodb://admin:mdcpassword@db:27017';
 const dbClient = new MongoClient(dbUrl);
 const dbName = 'smartthings';
+
 
 async function getLocations(token) {
     const headers = {

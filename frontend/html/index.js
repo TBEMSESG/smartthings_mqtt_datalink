@@ -1,4 +1,4 @@
-
+const Service = require('./classes/classes')
 //selectors
 const tokenInput = document.querySelector('.token-input');
 const getDevicesBtn = document.querySelector('.secrets button');
@@ -235,8 +235,9 @@ function createServicestable(e){
 
 
 function createService(){
-    console.log('creating services...')
-    let data = {"token":token, "deviceId":deviceIdGlobal, "deviceName":deviceName};
+    //let data = {"token":token, "deviceId":deviceIdGlobal, "deviceName":deviceName};
+    let data = new Service(deviceName,deviceIdGlobal,token);
+    console.log('creating services...', data)
     const headers = {
         method: "POST",
         body : JSON.stringify(data),
