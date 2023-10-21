@@ -1,4 +1,4 @@
-const Service = require('./classes/classes')
+
 //selectors
 const tokenInput = document.querySelector('.token-input');
 const getDevicesBtn = document.querySelector('.secrets button');
@@ -205,14 +205,16 @@ function getServicesList() {
             return response.json();
         }).then((data) => {
             serviceList = data;
+            servicesTable.innerHTML = '';
             serviceList.forEach((element) => {
-             createServicestable(element)});
+                createServicestable(element)});
             })
         .catch((err)=> console.log(err));
 };
 
 function createServicestable(e){
     // to be modified, not yet ready
+        
         const newTr = document.createElement('tr');
         
         const name = document.createElement('td');
@@ -259,10 +261,20 @@ function createService(){
         return response;
     })
     .then((data) => {
-        console.log(data);
+        console.log('created: ', data);
         getServicesList();
     })
     .catch((error) => {
         console.error('Fetch error!!!:', error);
     });
+}
+
+
+//classes
+class Service {
+    constructor(name, deviceid, token) {
+        this.deviceName = name
+        this.deviceId = deviceid
+        this.token = token
+    }
 }
