@@ -4,7 +4,7 @@ status:
 needs Smartthings token to connect to the devices.
 
 Important: 
-smartthings token is stored inplaintext to the db if you create a new service. This has to be changed in the future
+smartthings token is stored in plain text to the db if you create a new service. This has to be changed in the future
 
 
 ## What does it do?

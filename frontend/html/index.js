@@ -36,6 +36,8 @@ document.addEventListener('DOMContentLoaded', getServicesList)
 smartthingsBtn.addEventListener('click', ()=> smartthingsSection.classList.toggle('hidden'))
 infoBtn.addEventListener('click', ()=> instructionsBlock.classList.toggle('hidden'))
 
+//functions
+
 function showSelection(event) {
     
     let path = [];
