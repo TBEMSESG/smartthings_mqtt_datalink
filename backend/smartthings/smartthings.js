@@ -238,7 +238,36 @@ async function getServiceDetails(sId) {
 
   return findResult;
 }
+async function deleteServices() {
 
+  // Use connect method to connect to the server
+  await dbClient.connect(sId);
+  console.log('Connected successfully to server');
+  
+  const db = dbClient.db(dbName);
+  const collection = db.collection('services');
+
+  const deleteResult = await collection.deleteOne({ serviceId: sId });
+console.log('Deleted documents =>', deleteResult);
+
+  return findResult;
+}
+
+async function updateServices(sid, data) {
+
+  // Use connect method to connect to the server
+  await dbClient.connect();
+  console.log('Connected successfully to server');
+  
+  const db = dbClient.db(dbName);
+  const collection = db.collection('services');
+
+  const updateResult = await collection.updateOne({ serviceId: sid }, { $set: data});
+console.log('Updated documents =>', updateResult);
+  return updateResult;
+}
+
+// create a random string as Service ID, to be used in Services
 function makeid() {
   let result = '';
   const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -252,4 +281,4 @@ function makeid() {
 }
 
 
-module.exports = {getDevices, getDeviceFullStatus, writeService, getServiceDetails, getServices,dbClient}
+module.exports = {getDevices, getDeviceFullStatus, writeService, getServiceDetails, getServices, deleteServices, updateServices, dbClient}

@@ -61,6 +61,29 @@ router.get('/services/:id/:type', async function (req, res) {
     }
 });
 
+router.get('/details/:id', async function (req, res) {
+    try {
+        const serviceDetails = await smartthings.getServiceDetails(req.params.id);
+        res.status(200).send(serviceDetails);
+        
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Internal Server Error');
+    }
+});
+router.put('/details/:id', async function (req, res) {
+    try {
+        // add check for correct body payload
+        
+        // call update function
+        const updateService = await smartthings.updateServices(req.params.id,req.body);
+        res.status(200).send(updateService);
+        
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Internal Server Error');
+    }
+});
 
 router.post('/devices/:id', function (req, res) {
     smartthings.getDeviceFullStatus(req.body.token, req.params.id)

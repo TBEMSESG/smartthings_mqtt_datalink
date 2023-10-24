@@ -5,6 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Smartthing to DataLink</title>
         <link rel="stylesheet" href="styles.css">
+        <script src="https://kit.fontawesome.com/93884f28b5.js" crossorigin="anonymous"></script>
     </head>
     <body>
         <header >
@@ -73,6 +74,31 @@
         </div> -->
     </section>   
 </section>
+
+<!-- Modals -->
+<section class="modal modal-services hidden">
+    <div class="flex">
+      <p>Edit selected Service</p>
+      <button class="btn-close">⨉</button>
+    </div>
+    <div>
+      <h3 id="serviceName">thisshouldbethename</h3>
+      <h2 id="serviceId">thisshouldbethename</h2>
+    </div>
+    <p style="display: inline;">Modify the device name:</p>
+    <input type="text" id="newDeviceNameInput" placeholder="Enter device name here" />
+    <p style="display: inline;">Modify the token:</p>
+    <input type="password" id="newTokenInput" placeholder="Enter the new Token here"/>
+    <p style="display: inline;">Modify the device Id:</p>
+    <input type="text" id="newDeviceIdInput" placeholder="Enter DeviceId here" />
+
+    <button class="save-btn">Save / Edit</button>
+  </section>
+  
+  <div class="overlay hidden"></div>
+  <button class="btn-modal btn-open">Open Modal</button>
+
+
 <script src="index.js"></script>
 </body>
 </html>

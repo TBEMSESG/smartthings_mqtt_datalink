@@ -15,6 +15,18 @@ const smartthingsBtn = document.querySelector('.smartthings-btn');
 const shellyBtn = document.querySelector('.shelly-btn');
 const infoBtn = document.querySelector('.information-btn');
 const instructionsBlock = document.querySelector('.instructions');
+const newDeviceNameInput = document.querySelector('#newDeviceNameInput');
+const newDeviceIdInput = document.querySelector('#newDeviceIdInput');
+const newTokenInput = document.querySelector('#newTokenInput');
+const serviceName = document.querySelector('#serviceName');
+const serviceId = document.querySelector('#serviceId');
+const saveButton = document.querySelector('.save-btn');
+
+//Modal
+const modal = document.querySelector(".modal-services");
+const overlay = document.querySelector(".overlay");
+const openModalBtn = document.querySelector(".btn-open");
+const closeModalBtn = document.querySelector(".btn-close");
 
 const host = document.location.host;
 console.log("the host is: ", host);
@@ -26,7 +38,6 @@ let deviceName = "";
 let deviceIdGlobal ="";
 let token = '';
 let details = '';
-console.log(detail)
 
 //listeners
 getDevicesBtn.addEventListener('click', createDeviceList);
@@ -35,7 +46,8 @@ table.addEventListener('click', selectItem );
 document.addEventListener('DOMContentLoaded', getServicesList)
 smartthingsBtn.addEventListener('click', ()=> smartthingsSection.classList.toggle('hidden'))
 infoBtn.addEventListener('click', ()=> instructionsBlock.classList.toggle('hidden'))
-
+servicesTable.addEventListener('click', selectOpenModal)
+saveButton.addEventListener('click', updateServiceDetail)
 //functions
 
 function showSelection(event) {
@@ -208,10 +220,76 @@ function getServicesList() {
         }).then((data) => {
             serviceList = data;
             servicesTable.innerHTML = '';
-            serviceList.forEach((element) => {
-                createServicestable(element)});
+            //  serviceList.forEach( (element) => {
+            //     createServicestable(element)});
+            return Promise.all(serviceList.map(element => createServicestable(element)));
+            ;
+            }).then(() => {
+                const delBtn = document.querySelector('.del-btn');
+                const editBtn = document.querySelector('.edit-btn');
+                editBtn.addEventListener('click', selectOpenModal );
             })
         .catch((err)=> console.log(err));
+};
+
+function getServiceDetail(id) {
+    let service = [];
+    const headers = {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json"
+                  },
+        mode: "cors",
+        cache: "default",
+      };
+    
+    return fetch(`/api/details/${id}`, headers)
+        .then((response) => {
+            if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            return response.json();
+        }).then((data) => {
+            console.log(data)
+            serviceId.innerText= data[0].serviceId;
+            newDeviceIdInput.value = data[0].deviceId;
+            newDeviceNameInput.value = data[0].deviceName;
+            serviceName.innerText = data[0].deviceName;
+            newTokenInput.value = data[0].token;
+            }).then(openModal)
+        .catch((err)=> console.log(err));
+};
+
+function updateServiceDetail() {
+    let data = {
+        serviceId : serviceId.innerText,
+        deviceName : newDeviceNameInput.value,
+        deviceId : newDeviceIdInput.value,
+        token : newTokenInput.value
+    };
+
+    const headers = {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json"
+                  },
+        body: JSON.stringify(data),
+        mode: "cors",
+        cache: "default",
+      };
+    
+    return fetch(`/api/details/${serviceId.innerText}`, headers)
+        .then((response) => {
+            if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            return response.json();
+        }).then((data) => {
+            console.log(data)
+            }).then(() => {
+                closeModal(); 
+                getServicesList()})
+            .catch((err)=> console.log(err));
 };
 
 function createServicestable(e){
@@ -221,22 +299,31 @@ function createServicestable(e){
         
         const name = document.createElement('td');
         const url = document.createElement('td');
-        // const btn = document.createElement('button')
+        const sid = document.createElement('td');
+        const del_btn = document.createElement('td')
+        const edit_btn = document.createElement('td')
         
         name.innerText= e.deviceName;
         url.innerText= `http://${hostUrl[0]}:3000/services/${e.serviceId}/xml`;
-        // btn.textContent= 'create';
-        newTr.classList.add('table_item');
+        sid.innerText= e.serviceId;
+        del_btn.innerHTML= '<i class="fa-solid fa-trash"></i>';
+        edit_btn.innerHTML= '<i class="fa-solid fa-pen-to-square"></i>';
         
-        // btn.classList.add('create-btn')
+        //Add Classes
+        newTr.classList.add('table_item');
+        del_btn.classList.add('del-btn');
+        edit_btn.classList.add('edit-btn');
+        sid.classList.add('hidden');
         
         newTr.appendChild(name);
         newTr.appendChild(url);
+        newTr.appendChild(edit_btn);
+        newTr.appendChild(del_btn);
+        newTr.appendChild(sid);
                 
         servicesTable.appendChild(newTr);
         
 };
-
 
 function createService(){
     //let data = {"token":token, "deviceId":deviceIdGlobal, "deviceName":deviceName};
@@ -280,3 +367,42 @@ class Service {
         this.token = token
     }
 }
+
+// Open and close Modals
+
+
+const openModal = function () {
+    modal.classList.remove("hidden");
+    overlay.classList.remove("hidden");
+};
+const closeModal = function () {
+    modal.classList.add("hidden");
+    overlay.classList.add("hidden");
+  };
+
+  function selectOpenModal(e){
+      const item = e.target
+        //    console.log(item.classList)
+      if (item.classList[0] === 'edit-btn') {
+        const sid = item.parentElement.childNodes[4].innerText
+        getServiceDetail(sid);
+        
+    } 
+    // else if (item.classList[0] === 'completed-btn') {
+    //     const todo = item.parentElement;
+    //     todo.classList.toggle('completed');
+    //     updateTodo(todo);
+
+    // }
+    //   console.log(item)
+  }
+
+openModalBtn.addEventListener("click", openModal);
+closeModalBtn.addEventListener("click", closeModal);
+document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape" && !modal.classList.contains("hidden")) {
+      closeModal();
+    }
+  });
+
+ 
