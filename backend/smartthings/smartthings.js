@@ -5,6 +5,9 @@ const dotEnv = require('dotenv');
 const dbUrl = 'mongodb://admin:mdcpassword@db:27017';
 const dbClient = new MongoClient(dbUrl);
 const dbName = 'smartthings';
+const Cryptr = require('cryptr');
+const _mySecret = process.env.SECRET;
+const cryptr = new Cryptr(_mySecret);
 
 
 async function getLocations(token) {
@@ -192,8 +195,12 @@ async function getRoomDetails(token, locationId, roomId) {
 async function writeService(data) {
   //create random service name
   let serviceId = makeid();
+  let encryptedToken = cryptr.encrypt(data.token);
+  
   let newData = data
   newData.serviceId = serviceId;
+  newData.token = encryptedToken;
+  console.log(data.token , newData.token)
   // Use connect method to connect to the server
   await dbClient.connect();
   console.log('Connected successfully to server');
