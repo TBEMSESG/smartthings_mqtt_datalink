@@ -241,7 +241,10 @@ async function getServiceDetails(sId) {
   const collection = db.collection('services');
 
   const findResult = await collection.find({serviceId:sId}).toArray();
-  //console.log('Found documents =>', findResult);
+  console.log('Encrypted =>', findResult[0].token);
+  const token = cryptr.decrypt(findResult[0].token);
+  findResult[0].token = token; 
+  console.log('deCrypted =>', findResult[0].token);
 
   return findResult;
 }
@@ -268,7 +271,8 @@ async function updateServices(sid, data) {
   
   const db = dbClient.db(dbName);
   const collection = db.collection('services');
-
+  const encryptedToken = cryptr.encrypt(data.token);
+  data.token = encryptedToken;
   const updateResult = await collection.updateOne({ serviceId: sid }, { $set: data});
 console.log('Updated documents =>', updateResult);
   return updateResult;
