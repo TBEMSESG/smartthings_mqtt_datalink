@@ -31,7 +31,7 @@ It's important that you change the `mydemosecret` string to some random caracter
 environment:
     SECRET: 'mydemosecret'
 ```
->[!INFO]
+>[!NOTE]
 >This string is used for the encryption and should be uniqe and random. 
 
 Then run docker compose 
