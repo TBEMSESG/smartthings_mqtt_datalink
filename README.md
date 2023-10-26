@@ -11,14 +11,37 @@ The tool will be extended to be able to add many other devices, especially Shell
 
 ## How to start (docker-compose)
 
-> Step-by-step guide will be added later.
+!!!DANGER This app is provided as-is. Please audit the code and be aware that we cannot provide any support nor warranty.
 
-It's important that you change the 
+As the tool runs locally, you need a host machine with already installed docker and docker compose. [Link to Docker](https://www.docker.com)
+
+You can clone the complete repository to your local host with
+```bash
+git clone https://github.com/TBEMSESG/smartthings_mqtt_datalink.git
+```
+you have to update some parts in `docker-compose.yml`:
+```bash
+cd smartthings_mqtt_datalink
+nano docker-compose.yml
+```
+
+It's important that you change the `mydemosecret` string to some random caracters and numbers and save the file again:
 ```    
 environment:
     SECRET: 'mydemosecret'
 ```
-mydemosecret value in `docker-compose.yml` to a random string. This string is used for the encryption and should be uniqe and random. 
+!!!INFO This string is used for the encryption and should be uniqe and random. 
+
+Then run docker compose 
+```bash
+docker compose up -d
+```
+
+please check that all needed containers are started by running
+```bash
+docker ps
+```
+You should see 4 running containers.
 
 Connect to the web management page on `http://yourIP:8888` (dev: port to be changed in future when traefik proxy is added to the stack)
 
@@ -37,8 +60,8 @@ Datalink works best with XML data. If you need JSON, just modify the URL and rep
 
 **Edit or Delete** 
 Every service in the list, can be edited or deleted.
-> There is no protection. Use carefully as this can not be undone. 
 
+!!!WARNING There is no protection. Use carefully as this cannot be undone.
 ![Alt text](/images/editService.png)
 Feel free to change the device name to whatever best describes your device. 
 If your personal token has change, you can update it here.
@@ -46,8 +69,7 @@ there is no type of protection: entering a wrong token or changing the deviceId 
 
 ##Smartthings
 
->To use the Smartthings API, a personal token is needed. 
-[Find the needed information here](https://developer.smartthings.com/docs/advanced/authorization-and-permissions)
+!!!INFO To use the Smartthings API, a personal token is needed. [Find the needed information here](https://developer.smartthings.com/docs/advanced/authorization-and-permissions)
 
 Important: 
 Your smartthings token is stored into the db at the moment you create a new Service. 
