@@ -1,12 +1,13 @@
 const express = require('express');
 const smartthings = require ('../devices/smartthings.js');
+const shelly = require ('../devices/shelly.js');
 const connector = require ('../dbconnector/dbconnector.js');
 
 const router = express.Router();
 
 
 
-router.post('/devices', function (req, res) {
+router.post('/devices', function (req, res) { //smartthing
  
     smartthings.getDevices(req.body.token)
         .then((result) => {
@@ -17,7 +18,7 @@ router.post('/devices', function (req, res) {
             res.status(500).send('Internal Server Error');
         });
 });
-router.post('/services', function (req, res) {
+router.post('/services', function (req, res) { //Common
  
     connector.writeService(req.body)
         .then((result) => {
@@ -29,7 +30,7 @@ router.post('/services', function (req, res) {
             res.status(500).send('Internal Server Error');
         });
 });
-router.get('/services', function (req, res) {
+router.get('/services', function (req, res) { //Common
  
     connector.getServices()
         .then((result) => {
@@ -41,7 +42,7 @@ router.get('/services', function (req, res) {
             res.status(500).send('Internal Server Error');
         });
 });
-router.get('/services/:id/:type', async function (req, res) {
+router.get('/services/:id/:type', async function (req, res) { //smartthing tbc
     try {
         const serviceDetails = await connector.getServiceDetails(req.params.id);
                 
@@ -57,7 +58,7 @@ router.get('/services/:id/:type', async function (req, res) {
         res.status(500).send('Internal Server Error');
     }
 });
-router.get('/details/:id', async function (req, res) {
+router.get('/details/:id', async function (req, res) { //Common (Edit)
     try {
         const serviceDetails = await connector.getServiceDetails(req.params.id);
         serviceDetails[0].token = "";
@@ -68,7 +69,7 @@ router.get('/details/:id', async function (req, res) {
         res.status(500).send('Internal Server Error');
     }
 });
-router.put('/details/:id', async function (req, res) {
+router.put('/details/:id', async function (req, res) { //Common (Edit)
     try {
         // add check for correct body payload
         
@@ -81,7 +82,7 @@ router.put('/details/:id', async function (req, res) {
         res.status(500).send('Internal Server Error');
     }
 });
-router.delete('/details/:id', async function (req, res) {
+router.delete('/details/:id', async function (req, res) { //Common
     try {
         // add check for correct body payload
         
@@ -94,9 +95,23 @@ router.delete('/details/:id', async function (req, res) {
         res.status(500).send('Internal Server Error');
     }
 });
-router.post('/devices/:id', function (req, res) {
+router.post('/devices/:id', function (req, res) { //smartthing ?? 
     smartthings.getDeviceFullStatus(req.body.token, req.params.id)
         .then((result) => {
+        res.status(200).send(result); 
+        })
+        .catch((error) => {
+            console.error(error);
+            res.status(500).send('Internal Server Error');
+        });
+});
+
+//Shelly
+router.get('/shelly', async function (req, res) { //Shelly
+ 
+    await shelly.discoverShelly(10)
+        .then((result) => {
+        console.log(result)
         res.status(200).send(result); 
         })
         .catch((error) => {

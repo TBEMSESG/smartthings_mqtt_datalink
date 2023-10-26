@@ -18,7 +18,7 @@ function discoverShelly(time) {
             deviceApp : service.txt.app
           };
           devicesList.push(device);
-          console.log('Shelly Device Found:', device);
+          console.log('Shelly Device Found:', service);
         }
       });
   
@@ -33,5 +33,5 @@ function discoverShelly(time) {
     });
   }
 
-
+discoverShelly(10)
 module.exports = {discoverShelly};

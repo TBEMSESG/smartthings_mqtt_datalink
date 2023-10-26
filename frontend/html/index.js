@@ -1,5 +1,6 @@
 
 //selectors
+//smartthings
 const tokenInput = document.querySelector('.token-input');
 const getDevicesBtn = document.querySelector('.secrets button');
 const table = document.querySelector('.main_table');
@@ -12,7 +13,6 @@ const selectedDevice = document.querySelector('.selected-device');
 const createServiceBtn = document.querySelector('.create-btn');
 const smartthingsSection = document.querySelector('.smartthings');
 const smartthingsBtn = document.querySelector('.smartthings-btn');
-const shellyBtn = document.querySelector('.shelly-btn');
 const infoBtn = document.querySelector('.information-btn');
 const instructionsBlock = document.querySelector('.instructions');
 const newDeviceNameInput = document.querySelector('#newDeviceNameInput');
@@ -21,6 +21,11 @@ const newTokenInput = document.querySelector('#newTokenInput');
 const serviceName = document.querySelector('#serviceName');
 const serviceId = document.querySelector('#serviceId');
 const saveButton = document.querySelector('.save-btn');
+//shelly
+const shellySection = document.querySelector('.shelly');
+const shellyBtn = document.querySelector('.shelly-btn');
+const createShellyServiceBtn = document.querySelector('.shelly-create-btn');
+const getShellyDevicesBtn = document.querySelector('.shelly-secrets button');
 
 //Modal
 const modal = document.querySelector(".modal-services");
@@ -39,18 +44,23 @@ let token = '';
 let details = '';
 
 //listeners
-getDevicesBtn.addEventListener('click', createDeviceList);
-table.addEventListener('click', selectItem );
 //detail.addEventListener('click', showSelection );
 document.addEventListener('DOMContentLoaded', getServicesList)
-smartthingsBtn.addEventListener('click', ()=> smartthingsSection.classList.toggle('hidden'))
 infoBtn.addEventListener('click', ()=> instructionsBlock.classList.toggle('hidden'))
+// Edid services Modal
 servicesTable.addEventListener('click', selectOpenModal)
 saveButton.addEventListener('click', updateServiceDetail)
+//smartthings
+getDevicesBtn.addEventListener('click', createDeviceList);
+table.addEventListener('click', selectItem );
+smartthingsBtn.addEventListener('click', ()=> smartthingsSection.classList.toggle('hidden'))
+//Shelly
+shellyBtn.addEventListener('click', ()=> shellySection.classList.toggle('hidden'))
+getShellyDevicesBtn.addEventListener('click', createChellyDeviceList);
 
 
 //functions
-
+// Smartthings
 function showSelection(event) {
     
     let path = [];
@@ -200,6 +210,7 @@ function createList(obj, parentElement, name) {
     parentElement.appendChild(ul);
 
 }
+// Services
 function getServicesList() {
     let serviceList = [];
     const headers = {
@@ -384,14 +395,17 @@ function createService(name, id, token, type){
         console.error('Fetch error!!!:', error);
     });
 }
+// Shelly
+
 
 //classes
 class Service {
-    constructor(name, deviceid, token, type) {
+    constructor(name, deviceid, token, type, ipaddress) {
         this.deviceName = name
         this.deviceId = deviceid
         this.token = token
         this.type = type
+        this.ipaddress = ipaddress
     }
 }
 
