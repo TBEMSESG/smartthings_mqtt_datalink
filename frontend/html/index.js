@@ -139,7 +139,7 @@ function selectItem(e) {
     // selectedDevice.innerHTML = deviceIdGlobal + ' ' + deviceName;
     fetchDetails(comm, name);
 
-    if (item.classList[0]==='create-btn') createService('smartthings');
+    if (item.classList[0]==='create-btn') createService(deviceName,deviceIdGlobal,token, 'smartthings');
 
 };
 function fetchDetails(val, name) {
@@ -353,9 +353,9 @@ function createServicestable(e){
         servicesTable.appendChild(newTr);
         
 };
-function createService(t){
+function createService(name, id, token, type){
 
-    let data = new Service(deviceName,deviceIdGlobal,token, t);
+    let data = new Service(name,id,token, type);
 
     const headers = {
         method: "POST",
