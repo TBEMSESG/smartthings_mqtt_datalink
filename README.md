@@ -7,6 +7,8 @@ The tool allows you to get all the information you need from your Smartthings ac
 
 The tool will be extended to be able to add many other devices, especially Shelly will be added in the near future.
 
+![diagram](/images/smartthing_mqtt_datalink.drawio.png)
+
 ##Smartthings
 
 >To use the Smartthings API, a personal token is needed. 
