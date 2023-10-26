@@ -28,10 +28,9 @@ const overlay = document.querySelector(".overlay");
 const openModalBtn = document.querySelector(".btn-open");
 const closeModalBtn = document.querySelector(".btn-close");
 
+//get the Host for link generation
 const host = document.location.host;
-console.log("the host is: ", host);
 const hostUrl = host.split(':');
-console.log(hostUrl)
 
 let tr = [];
 let deviceName = "";
@@ -48,6 +47,8 @@ smartthingsBtn.addEventListener('click', ()=> smartthingsSection.classList.toggl
 infoBtn.addEventListener('click', ()=> instructionsBlock.classList.toggle('hidden'))
 servicesTable.addEventListener('click', selectOpenModal)
 saveButton.addEventListener('click', updateServiceDetail)
+
+
 //functions
 
 function showSelection(event) {
@@ -74,7 +75,6 @@ function showSelection(event) {
     selectedPath.innerText = path.join(' > ')    
     
 };
-
 function createDeviceList() {
     token = tokenInput.value;
     let data = {"token":token}
@@ -142,7 +142,7 @@ function selectItem(e) {
 
 };
 function fetchDetails(val, name) {
-    console.log('clicked element',val, deviceIdGlobal)
+    //console.log('clicked element',val, deviceIdGlobal)
     let data = {"token":token}
     const headers = {
         method: "POST",
@@ -163,7 +163,7 @@ function fetchDetails(val, name) {
         return response.json();
     })
     .then((data) => {
-        console.log(data);
+        //console.log(data);
         details = data.components.main;
         createList(details,container, name)
     })
@@ -171,7 +171,6 @@ function fetchDetails(val, name) {
         console.error('Fetch error!!!:', error);
     });
 }
-
 function createList(obj, parentElement, name) {
     //creates list of details about the selected device.
     const ul = document.createElement('ul');
@@ -224,14 +223,9 @@ function getServicesList() {
             //     createServicestable(element)});
             return Promise.all(serviceList.map(element => createServicestable(element)));
             ;
-            }).then(() => {
-                const delBtn = document.querySelector('.del-btn');
-                const editBtn = document.querySelector('.edit-btn');
-                editBtn.addEventListener('click', selectOpenModal );
             })
         .catch((err)=> console.log(err));
 };
-
 function getServiceDetail(id) {
     let service = [];
     const headers = {
@@ -255,7 +249,7 @@ function getServiceDetail(id) {
             newDeviceIdInput.value = data[0].deviceId;
             newDeviceNameInput.value = data[0].deviceName;
             serviceName.innerText = data[0].deviceName;
-            newTokenInput.value = data[0].token;
+            newTokenInput.value = "";
             }).then(openModal)
         .catch((err)=> console.log(err));
 };
@@ -283,12 +277,25 @@ function delService(id) {
         .catch((err)=> console.log(err));
 };
 function updateServiceDetail() {
-    let data = {
-        serviceId : serviceId.innerText,
-        deviceName : newDeviceNameInput.value,
-        deviceId : newDeviceIdInput.value,
-        token : newTokenInput.value
-    };
+    
+    //check if token has been modified. only then update the token
+    let data = {}
+    
+    if (newTokenInput.value ==="") {
+        data = {
+            serviceId : serviceId.innerText,
+            deviceName : newDeviceNameInput.value,
+            deviceId : newDeviceIdInput.value
+        }
+    }
+    else {
+        data = {
+            serviceId : serviceId.innerText,
+            deviceName : newDeviceNameInput.value,
+            deviceId : newDeviceIdInput.value,
+            token : newTokenInput.value
+        }
+    }
 
     const headers = {
         method: "PUT",
@@ -307,13 +314,12 @@ function updateServiceDetail() {
             }
             return response.json();
         }).then((data) => {
-            console.log(data)
+            console.log('Data has been updated')
             }).then(() => {
                 closeModal(); 
                 getServicesList()})
             .catch((err)=> console.log(err));
 };
-
 function createServicestable(e){
     // to be modified, not yet ready
         
@@ -346,11 +352,10 @@ function createServicestable(e){
         servicesTable.appendChild(newTr);
         
 };
-
 function createService(){
-    //let data = {"token":token, "deviceId":deviceIdGlobal, "deviceName":deviceName};
+
     let data = new Service(deviceName,deviceIdGlobal,token);
-    console.log('creating services...', data)
+
     const headers = {
         method: "POST",
         body : JSON.stringify(data),
@@ -372,7 +377,6 @@ function createService(){
         return response;
     })
     .then((data) => {
-        console.log('created: ', data);
         getServicesList();
     })
     .catch((error) => {
@@ -410,11 +414,9 @@ function selectOpenModal(e){
         getServiceDetail(sid);}
       if (item.classList[0] === 'del-btn') {
         delService(sid);    
-       
     } 
 };
 
-openModalBtn.addEventListener("click", openModal);
 closeModalBtn.addEventListener("click", closeModal);
 document.addEventListener("keydown", function (e) {
     if (e.key === "Escape" && !modal.classList.contains("hidden")) {

@@ -49,7 +49,6 @@ async function writeService(data) {
   
     // Use connect method to connect to the server
     await dbClient.connect();
-    //console.log('Connected successfully to server');
     
     const db = dbClient.db(dbName);
     const collection = db.collection('services');
@@ -84,8 +83,10 @@ async function writeService(data) {
     
     const db = dbClient.db(dbName);
     const collection = db.collection('services');
+    if (data.token) {
     const encryptedToken = cryptr.encrypt(data.token);
-    data.token = encryptedToken;
+    data.token = encryptedToken
+    };
     const updateResult = await collection.updateOne({ serviceId: sid }, { $set: data});
   console.log('Updated documents =>', updateResult);
     return updateResult;

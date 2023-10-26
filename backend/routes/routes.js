@@ -46,7 +46,7 @@ router.get('/services/:id/:type', async function (req, res) {
         const serviceDetails = await connector.getServiceDetails(req.params.id);
                 
         const deviceStatus = await smartthings.getDeviceFullStatus(serviceDetails[0].token, serviceDetails[0].deviceId);
-        console.log('Response as XML =>> ',OBJtoXML(deviceStatus))
+        //console.log('Response as XML =>> ',OBJtoXML(deviceStatus))
         
         if (req.params.type == 'json') res.status(200).send(deviceStatus);
         if (req.params.type == 'xml') res.status(200).send(OBJtoXML(deviceStatus)); 
@@ -60,6 +60,7 @@ router.get('/services/:id/:type', async function (req, res) {
 router.get('/details/:id', async function (req, res) {
     try {
         const serviceDetails = await connector.getServiceDetails(req.params.id);
+        serviceDetails[0].token = "";
         res.status(200).send(serviceDetails);
         
     } catch (error) {
