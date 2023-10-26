@@ -1,24 +1,32 @@
-const { CoIoTServer, CoIoTClient } = require('coiot-coap');
-
-// Listen to ALL messages in your network
-const server = new CoIoTServer();
-
-server.on('status', (status) => console.log(status));
-server.listen();
-
-// Query devices directly
-const client = new CoIoTClient({ host: '192.168.10.75' });
-//const status = client.getStatus().then((s) => console.log(s));
-
-try{
+const bonjour = require('bonjour')();
 
 
-const description = client.getDescription();
-console.log(description)
+
+function discoverShelly(time) {
+    console.log('Searching for Shelly devices...');
+    let devicesList = [];
+
+    // Start browsing for Shelly devices
+    const browser = bonjour.find({ type: 'http' }, function (service) {
+    // Check if the device is a Shelly device
+    if (service.name.includes('shelly')) {
+        const device = {
+            deviceName: service.name,
+            deviceAddress: service.addresses[0]  // Assuming IPv4 address is first, you might want to handle this differently
+        };
+        devicesList.push(device);
+        console.log('Shelly Device Found:', device);
+    }
+    });
+
+    // Stop searching after 10 seconds
+    setTimeout(() => {
+    browser.stop();
+    bonjour.destroy();
+    console.log('Search completed.');
+    return devicesList
+    }, time*1000);
 }
-catch {console.log('error')}
 
-// // or ...
-// const client = new CoIoTClient();
-// const status = await client.getStatus({ host: '192.168.1.102' });
-// const description = await client.getDescription({ host: '192.168.1.102' });
+discoverShelly(30)
+module.exports = {discoverShelly};
