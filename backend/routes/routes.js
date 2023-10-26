@@ -1,7 +1,9 @@
 const express = require('express');
 const smartthings = require ('../smartthings/smartthings.js');
+const connector = require ('../dbconnector/dbconnector.js');
 
 const router = express.Router();
+
 
 
 router.post('/devices', function (req, res) {
@@ -15,10 +17,9 @@ router.post('/devices', function (req, res) {
             res.status(500).send('Internal Server Error');
         });
 });
-
 router.post('/services', function (req, res) {
  
-    smartthings.writeService(req.body)
+    connector.writeService(req.body)
         .then((result) => {
             console.log('result from DB:', result)
         res.status(200).send(JSON.stringify(result)); 
@@ -26,13 +27,11 @@ router.post('/services', function (req, res) {
         .catch((error) => {
             console.error(error);
             res.status(500).send('Internal Server Error');
-        })
-        .finally(() => smartthings.dbClient.close());
+        });
 });
-
 router.get('/services', function (req, res) {
  
-    smartthings.getServices()
+    connector.getServices()
         .then((result) => {
         
         res.status(200).send(result); 
@@ -40,13 +39,11 @@ router.get('/services', function (req, res) {
         .catch((error) => {
             console.error(error);
             res.status(500).send('Internal Server Error');
-        })
-        .finally(() => smartthings.dbClient.close());
+        });
 });
-
 router.get('/services/:id/:type', async function (req, res) {
     try {
-        const serviceDetails = await smartthings.getServiceDetails(req.params.id);
+        const serviceDetails = await connector.getServiceDetails(req.params.id);
                 
         const deviceStatus = await smartthings.getDeviceFullStatus(serviceDetails[0].token, serviceDetails[0].deviceId);
         console.log('Response as XML =>> ',OBJtoXML(deviceStatus))
@@ -60,10 +57,9 @@ router.get('/services/:id/:type', async function (req, res) {
         res.status(500).send('Internal Server Error');
     }
 });
-
 router.get('/details/:id', async function (req, res) {
     try {
-        const serviceDetails = await smartthings.getServiceDetails(req.params.id);
+        const serviceDetails = await connector.getServiceDetails(req.params.id);
         res.status(200).send(serviceDetails);
         
     } catch (error) {
@@ -76,7 +72,7 @@ router.put('/details/:id', async function (req, res) {
         // add check for correct body payload
         
         // call update function
-        const updateService = await smartthings.updateServices(req.params.id,req.body);
+        const updateService = await connector.updateServices(req.params.id,req.body);
         res.status(200).send(updateService);
         
     } catch (error) {
@@ -89,7 +85,7 @@ router.delete('/details/:id', async function (req, res) {
         // add check for correct body payload
         
         // call update function
-        const delService = await smartthings.deleteServices(req.params.id);
+        const delService = await connector.deleteServices(req.params.id);
         res.status(200).send(delService);
         
     } catch (error) {
@@ -97,7 +93,6 @@ router.delete('/details/:id', async function (req, res) {
         res.status(500).send('Internal Server Error');
     }
 });
-
 router.post('/devices/:id', function (req, res) {
     smartthings.getDeviceFullStatus(req.body.token, req.params.id)
         .then((result) => {
@@ -109,6 +104,7 @@ router.post('/devices/:id', function (req, res) {
         });
 });
 
+// function to convert Object to XML (for DataLink)
 function OBJtoXML(obj) {
     var xml = '';
     for (var prop in obj) {
