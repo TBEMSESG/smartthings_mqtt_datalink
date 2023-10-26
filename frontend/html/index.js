@@ -126,6 +126,7 @@ function createTable(e){
         
         // tr = document.querySelectorAll('.table_item')
 };
+// smartthings select Item to create
 function selectItem(e) {
     let comm ="";
     let name ="";
@@ -138,7 +139,7 @@ function selectItem(e) {
     // selectedDevice.innerHTML = deviceIdGlobal + ' ' + deviceName;
     fetchDetails(comm, name);
 
-    if (item.classList[0]==='create-btn') createService();
+    if (item.classList[0]==='create-btn') createService('smartthings');
 
 };
 function fetchDetails(val, name) {
@@ -352,9 +353,9 @@ function createServicestable(e){
         servicesTable.appendChild(newTr);
         
 };
-function createService(){
+function createService(t){
 
-    let data = new Service(deviceName,deviceIdGlobal,token);
+    let data = new Service(deviceName,deviceIdGlobal,token, t);
 
     const headers = {
         method: "POST",
@@ -384,19 +385,17 @@ function createService(){
     });
 }
 
-
 //classes
 class Service {
-    constructor(name, deviceid, token) {
+    constructor(name, deviceid, token, type) {
         this.deviceName = name
         this.deviceId = deviceid
         this.token = token
+        this.type = type
     }
 }
 
 // Open and close Modals
-
-
 const openModal = function () {
     modal.classList.remove("hidden");
     overlay.classList.remove("hidden");
@@ -405,7 +404,6 @@ const closeModal = function () {
     modal.classList.add("hidden");
     overlay.classList.add("hidden");
   };
-
 function selectOpenModal(e){
       const item = e.target
       const sid = item.parentElement.childNodes[4].innerText
