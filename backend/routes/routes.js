@@ -1,5 +1,5 @@
 const express = require('express');
-const smartthings = require ('../smartthings/smartthings.js');
+const smartthings = require ('../devices/smartthings.js');
 const connector = require ('../dbconnector/dbconnector.js');
 
 const router = express.Router();

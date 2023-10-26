@@ -3,8 +3,6 @@ const app = express();
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const routes = require('./routes/routes.js')
-const {MongoClient , ObjectId } = require('mongodb');
-const smartthings = require ('./smartthings/smartthings.js');
 
 app.use(cors());
 app.use(bodyParser.json());
