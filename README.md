@@ -31,7 +31,8 @@ It's important that you change the `mydemosecret` string to some random caracter
 environment:
     SECRET: 'mydemosecret'
 ```
-!!!INFO This string is used for the encryption and should be uniqe and random. 
+>[!INFO]
+>This string is used for the encryption and should be uniqe and random. 
 
 Then run docker compose 
 ```bash
@@ -62,7 +63,9 @@ Datalink works best with XML data. If you need JSON, just modify the URL and rep
 **Edit or Delete** 
 Every service in the list, can be edited or deleted.
 
-!!!WARNING There is no protection. Use carefully as this cannot be undone.
+>[!WARNING]
+>There is no protection. Use carefully as this cannot be undone.
+
 ![Alt text](/images/editService.png)
 Feel free to change the device name to whatever best describes your device. 
 If your personal token has change, you can update it here.
