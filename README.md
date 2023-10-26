@@ -11,7 +11,7 @@ The tool will be extended to be able to add many other devices, especially Shell
 
 ## How to start (docker-compose)
 
-!!!DANGER This app is provided as-is. Please audit the code and be aware that we cannot provide any support nor warranty.
+[!WARNING] This app is provided as-is. Please audit the code and be aware that we cannot provide any support nor warranty.
 
 As the tool runs locally, you need a host machine with already installed docker and docker compose. [Link to Docker](https://www.docker.com)
 
