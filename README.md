@@ -1,4 +1,4 @@
-# Smarthing to DataLink or W-Player connector
+# Smartthings to DataLink or W-Player connector
 
 ## Tool description
 The tool provides the status of IoT devices as clean XML or JSON that can be used by Samsung Smart Signage displays, either directly as W-Player content that consumes JSON data, or by using DataLink Server with S-Player.
