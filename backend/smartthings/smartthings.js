@@ -10,94 +10,6 @@ const _mySecret = process.env.SECRET;
 const cryptr = new Cryptr(_mySecret);
 
 
-async function getLocations(token) {
-    const headers = {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        mode: "no-cors",
-        cache: "default",
-      };;
-
-    fetch(`${smartthingsAPIUrl}/locations`, headers)
-    .then((response) => {
-        if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-    
-        return response.json();
-      })
-      .then((response) => {
-        console.log(response);
-      });
-}
-async function getLocationDetails(token, locationId) {
-    const headers = {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        mode: "no-cors",
-        cache: "default",
-      };;
-
-    fetch(`${smartthingsAPIUrl}/locations/${locationId}`, headers)
-    .then((response) => {
-        if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-    
-        return response.json();
-      })
-      .then((response) => {
-        console.log(response);
-      });
-}
-async function getLocationModes(token, locationId) {
-    const headers = {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        mode: "no-cors",
-        cache: "default",
-      };;
-
-    fetch(`${smartthingsAPIUrl}/locations/${locationId}/modes`, headers)
-    .then((response) => {
-        if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-    
-        return response.json();
-      })
-      .then((response) => {
-        console.log(response);
-      });
-}
-async function getRooms(token, locationId) {
-    const headers = {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        mode: "no-cors",
-        cache: "default",
-      };;
-
-    fetch(`${smartthingsAPIUrl}/locations/${locationId}/rooms`, headers)
-    .then((response) => {
-        if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-    
-        return response.json();
-      })
-      .then((response) => {
-        console.log(response);
-      });
-}
 async function getDevices(token) {
     const headers = {
         method: "GET",
@@ -138,26 +50,8 @@ async function getDeviceFullStatus(token, deviceId) {
       })
       .catch((err)=> console.log(err));
 }
-async function getRoomDetails(token, locationId, roomId) {
-    const headers = {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        mode: "no-cors",
-        cache: "default",
-      };;
 
-    return fetch(`${smartthingsAPIUrl}/locations/${locationId}/rooms/${roomId}`, headers)
-    .then((response) => {
-        if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-    
-        return response.json();
-      })
-      
-}
+// 
 // async function getSubscriptionsList(token, deviceId) {
 //   const body = {
 //     sourceType: 'DEVICE',
@@ -248,7 +142,7 @@ async function getServiceDetails(sId) {
 
   return findResult;
 }
-async function deleteServices() {
+async function deleteServices(sId) {
 
   // Use connect method to connect to the server
   await dbClient.connect(sId);
@@ -260,9 +154,8 @@ async function deleteServices() {
   const deleteResult = await collection.deleteOne({ serviceId: sId });
 console.log('Deleted documents =>', deleteResult);
 
-  return findResult;
+  return deleteResult;
 }
-
 async function updateServices(sid, data) {
 
   // Use connect method to connect to the server
@@ -292,4 +185,4 @@ function makeid() {
 }
 
 
-module.exports = {getDevices, getDeviceFullStatus, writeService, getServiceDetails, getServices, deleteServices, updateServices, dbClient}
+module.exports = {getDevices, getDeviceFullStatus, writeService, getServiceDetails, getServices, deleteServices, updateServices, deleteServices, dbClient}

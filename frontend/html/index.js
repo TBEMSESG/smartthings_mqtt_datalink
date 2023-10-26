@@ -259,7 +259,29 @@ function getServiceDetail(id) {
             }).then(openModal)
         .catch((err)=> console.log(err));
 };
-
+function delService(id) {
+    const headers = {
+        method: "DELETE",
+        headers: {
+            "Content-Type": "application/json"
+                  },
+        mode: "cors",
+        cache: "default",
+      };
+    
+    return fetch(`/api/details/${id}`, headers)
+        .then((response) => {
+            if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            return response.json();
+        }).then((data) => {
+            console.log( 'Deleted: -> ', data);
+            getServicesList()
+            return data;
+            })
+        .catch((err)=> console.log(err));
+};
 function updateServiceDetail() {
     let data = {
         serviceId : serviceId.innerText,
@@ -380,22 +402,17 @@ const closeModal = function () {
     overlay.classList.add("hidden");
   };
 
-  function selectOpenModal(e){
+function selectOpenModal(e){
       const item = e.target
+      const sid = item.parentElement.childNodes[4].innerText
         //    console.log(item.classList)
       if (item.classList[0] === 'edit-btn') {
-        const sid = item.parentElement.childNodes[4].innerText
-        getServiceDetail(sid);
-        
+        getServiceDetail(sid);}
+      if (item.classList[0] === 'del-btn') {
+        delService(sid);    
+       
     } 
-    // else if (item.classList[0] === 'completed-btn') {
-    //     const todo = item.parentElement;
-    //     todo.classList.toggle('completed');
-    //     updateTodo(todo);
-
-    // }
-    //   console.log(item)
-  }
+};
 
 openModalBtn.addEventListener("click", openModal);
 closeModalBtn.addEventListener("click", closeModal);

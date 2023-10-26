@@ -84,6 +84,19 @@ router.put('/details/:id', async function (req, res) {
         res.status(500).send('Internal Server Error');
     }
 });
+router.delete('/details/:id', async function (req, res) {
+    try {
+        // add check for correct body payload
+        
+        // call update function
+        const delService = await smartthings.deleteServices(req.params.id);
+        res.status(200).send(delService);
+        
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Internal Server Error');
+    }
+});
 
 router.post('/devices/:id', function (req, res) {
     smartthings.getDeviceFullStatus(req.body.token, req.params.id)
