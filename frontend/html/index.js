@@ -26,6 +26,12 @@ const shellySection = document.querySelector('.shelly');
 const shellyBtn = document.querySelector('.shelly-btn');
 const createShellyServiceBtn = document.querySelector('.shelly-create-btn');
 const getShellyDevicesBtn = document.querySelector('.shelly-secrets button');
+//MQTT
+const mqttSection = document.querySelector('.mqtt');
+const mqttBtn = document.querySelector('.mqtt-btn');
+const createmqttServiceBtn = document.querySelector('.mqtt-create-btn');
+const getmqttDevicesBtn = document.querySelector('.mqtt-secrets button');
+
 
 //Modal
 const modal = document.querySelector(".modal-services");
@@ -56,8 +62,11 @@ table.addEventListener('click', selectItem );
 smartthingsBtn.addEventListener('click', ()=> smartthingsSection.classList.toggle('hidden'))
 //Shelly
 shellyBtn.addEventListener('click', ()=> shellySection.classList.toggle('hidden'))
-getShellyDevicesBtn.addEventListener('click', createChellyDeviceList);
+// getShellyDevicesBtn.addEventListener('click', createChellyDeviceList);
 
+//mqtt
+mqttBtn.addEventListener('click', ()=> mqttSection.classList.toggle('hidden'))
+// getmqttDevicesBtn.addEventListener('click', createmqttDeviceList);
 
 //functions
 // Smartthings

@@ -36,7 +36,8 @@
             <div class="btn-title">Create new Services</div>
             <div class="buttons">
                 <div class="smartthings-btn"><button >Smartthings</button></div>
-                <div class="shelly-btn"><button>Shelly</button></div>
+                <div class="mqtt-btn"><button>MQTT</button></div>
+                <div class="shelly-btn hidden"><button>Shelly</button></div>
             </div>
         </section>
         
@@ -91,6 +92,34 @@
                 <h3>Devices</h3>
                 <table class="shelly_main_table">
                     <tr class="shelly_table_title">
+                        <td class="hidden">Type</td><td>Name</td><td>Address</td><td>Create Service</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </section>
+    
+</section>
+
+<section class="mqtt hidden">
+    <section class="section-secrets">
+        <div>
+            <div class="mqtt-secrets">
+                <p>Discover local Shelly devices: (Not working ... Docker Networking issue)</p>
+                <button>Discover</button>
+            </div>
+            <div class="secrets">
+                <p>Enter your mqtt info here:</p>
+                <input type="text" class="mqtt-input"><button>Check Status</button>
+            </div>
+        </div>
+    </section>
+    <section class="mqtt-section-inputs">
+        <div>
+            <div class="mqtt-device-table">
+                <h3>Devices</h3>
+                <table class="mqtt_main_table">
+                    <tr class="mqtt_table_title">
                         <td class="hidden">Type</td><td>Name</td><td>Address</td><td>Create Service</td>
                     </tr>
                 </table>
