@@ -396,6 +396,31 @@ function createService(name, id, token, type){
     });
 }
 // Shelly
+function discoverShellyDeviceList() {
+    token = tokenInput.value;
+    let data = {"token":token}
+    const headers = {
+        method: "POST",
+        body : JSON.stringify(data),
+        headers: {
+            "Content-Type": "application/json"
+                  },
+        mode: "cors",
+        cache: "default",
+      };
+    
+    return fetch(`/api/devices`, headers)
+        .then((response) => {
+            if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            return response.json();
+        }).then((data) => {
+            data.forEach((element) => {
+             createTable(element)});
+            })
+        .catch((err)=> console.log(err));
+};
 
 
 //classes

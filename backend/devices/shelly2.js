@@ -8,7 +8,7 @@ function discoverShelly(time) {
   
       // Start browsing for Shelly devices
       const browser = bonjour.find({ type: 'http' }, function (service) {
-        console.log('Service found:', service.name); // Log every service found
+        //console.log('Service found:', service.name); // Log every service found
 
         // Check if the device is a Shelly device
         if (service.name.includes('shelly')) {
@@ -18,7 +18,7 @@ function discoverShelly(time) {
             deviceApp : service.txt.app
           };
           devicesList.push(device);
-          console.log('Shelly Device Found:', service);
+          console.log('Shelly Device Found:', devicesList);
         }
       });
   
@@ -33,5 +33,6 @@ function discoverShelly(time) {
     });
   }
 
+  
 discoverShelly(10)
 module.exports = {discoverShelly};

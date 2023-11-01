@@ -12,10 +12,8 @@ services:
     build: ./backend/
     networks:
       - intern
-      - my_custom_network
     ports:
       - "3000:3000"
-      - "224.0.0.251:5353:5353/udp"
     environment:
       SECRET: 'mydemosecret'
 
@@ -60,5 +58,6 @@ networks:
   # traefik-proxy:
       # external: true
   intern:
-  my_custom_network:
-      external: true
+  # my_custom_network:
+  #     mode: host
+  #     external: true

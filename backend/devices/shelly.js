@@ -1,4 +1,3 @@
-const bonjour = require('bonjour')();
 
 
 function discoverShelly(time) {
