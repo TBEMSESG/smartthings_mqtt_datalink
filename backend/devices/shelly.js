@@ -1,4 +1,4 @@
-
+const bonjour = require('bonjour')()
 
 function discoverShelly(time) {
     return new Promise((resolve) => {
@@ -24,7 +24,7 @@ function discoverShelly(time) {
       // Stop searching after 'time' seconds
       setTimeout(() => {
         browser.stop();
-        bonjour.destroy();
+        // bonjour.destroy();
         console.log('Search completed. Devices found:', devicesList.length);
 
         resolve(devicesList);  // Resolve the promise with the list of devices

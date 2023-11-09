@@ -7,13 +7,28 @@ services:
       - intern
     ports:
       - "27017:27017"
+  #avahi is bridge between contaier and host for mDns forwarding
+  avahi:
+    image: flungo/avahi
+    networks:
+      intern:
+      physical1:
+        ipv4_address: 10.10.0.221
+    environment:
+      - REFLECTOR_ENABLE_REFLECTOR=yes
+      - SERVER_USE_IPV6=false
+      - SERVER_USE_IPV4=true
 
   backend:
     build: ./backend/
+    # network_mode: host
     networks:
-      - intern
+      intern:
+      # physical1:
+      #   ipv4_address: 10.10.10.221
     ports:
       - "3000:3000"
+      - "5353:5353/udp"
     environment:
       SECRET: 'mydemosecret'
 
@@ -35,6 +50,7 @@ services:
     #   - "traefik.http.middlewares.mdc.redirectscheme.scheme=https"
     #   - "traefik.http.middlewares.mdc.redirectscheme.permanent=true"
 
+  #only used in dev 
   mongo-express:
       image: mongo-express
       restart: always
@@ -61,3 +77,14 @@ networks:
   # my_custom_network:
   #     mode: host
   #     external: true
+  physical1:
+    driver: macvlan
+    driver_opts:
+      parent: enp2s0
+    ipam:
+      driver: default
+      config:
+        - subnet: "10.10.0.0/24"
+          gateway: "10.10.0.1"
+
+

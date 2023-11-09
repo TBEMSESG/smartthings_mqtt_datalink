@@ -107,9 +107,9 @@ router.post('/devices/:id', function (req, res) { //smartthing ??
 });
 
 //Shelly
-router.get('/shelly', async function (req, res) { //Shelly
+router.get('/shelly/:time', async function (req, res) { //Shelly
  
-    await shelly.discoverShelly(10)
+    await shelly.discoverShelly(req.params.time)
         .then((result) => {
         console.log(result)
         res.status(200).send(result); 
