@@ -80,7 +80,7 @@
                 <p>Discover local Shelly devices: (Not working ... Docker Networking issue)</p>
                 <button>Discover</button>
             </div>
-            <div class="secrets">
+            <div class="secrets hidden">
                 <p>Enter your Shelly Device IP Address here:</p>
                 <input type="text" class="shellyIP-input"><button>Check Status</button>
             </div>
@@ -108,7 +108,7 @@
                 <p>Discover local Shelly devices: (Not working ... Docker Networking issue)</p>
                 <button>Discover</button>
             </div>
-            <div class="secrets">
+            <div class="secrets hidden">
                 <p>Enter your mqtt info here:</p>
                 <input type="text" class="mqtt-input"><button>Check Status</button>
             </div>
@@ -148,6 +148,13 @@
     <button class="save-btn">Save / Edit</button>
   </section>
   
+  <section class="modal modal-loading hidden">
+    <div class="flex">
+      <h1>Loading ... please wait</h1>
+      <!-- <button class="btn-close">⨉</button> -->
+    </div>
+  </section>
+
   <div class="overlay hidden"></div>
   
 <script src="index.js"></script>

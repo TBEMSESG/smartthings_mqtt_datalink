@@ -37,6 +37,7 @@ const getmqttDevicesBtn = document.querySelector('.mqtt-secrets button');
 
 //Modal
 const modal = document.querySelector(".modal-services");
+const modalLoading = document.querySelector(".modal-loading");
 const overlay = document.querySelector(".overlay");
 const openModalBtn = document.querySelector(".btn-open");
 const closeModalBtn = document.querySelector(".btn-close");
@@ -410,6 +411,8 @@ function createService(name, id, token, type){
 // Shelly
 function discoverShellyDeviceList() {
     console.log('Discovering')
+    modalLoading.classList.remove('hidden');
+    overlay.classList.remove('hidden');
     const headers = {
         method: "GET",
         headers: {
@@ -419,22 +422,26 @@ function discoverShellyDeviceList() {
         cache: "default",
       };
     
-    return fetch(`/api/shelly/20`, headers)
+    return fetch(`/api/shelly/10`, headers)
         .then((response) => {
             if (!response.ok) {
             throw new Error(`HTTP error! Status: ${response.status}`);
             }
             return response.json();
         }).then((data) => {
+            shellyTable.innerHTML = ""
+
             data.forEach((element) => {
              shellyCreateTable(element)});
+            }).then(()=>  {
+                modalLoading.classList.add('hidden');
+                overlay.classList.add('hidden');
             })
         .catch((err)=> console.log(err));
 };
 
 function shellyCreateTable(e){
 
-    shellyTable.innerHTML = ""
     const newTr = document.createElement('tr');
     
     const name = document.createElement('td');
