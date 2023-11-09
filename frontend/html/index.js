@@ -24,8 +24,10 @@ const saveButton = document.querySelector('.save-btn');
 //shelly
 const shellySection = document.querySelector('.shelly');
 const shellyBtn = document.querySelector('.shelly-btn');
+const shellyTable = document.querySelector('.shelly_main_table')
 const createShellyServiceBtn = document.querySelector('.shelly-create-btn');
 const getShellyDevicesBtn = document.querySelector('.shelly-secrets button');
+
 //MQTT
 const mqttSection = document.querySelector('.mqtt');
 const mqttBtn = document.querySelector('.mqtt-btn');
@@ -62,7 +64,8 @@ table.addEventListener('click', selectItem );
 smartthingsBtn.addEventListener('click', ()=> smartthingsSection.classList.toggle('hidden'))
 //Shelly
 shellyBtn.addEventListener('click', ()=> shellySection.classList.toggle('hidden'))
-// getShellyDevicesBtn.addEventListener('click', createChellyDeviceList);
+getShellyDevicesBtn.addEventListener('click', discoverShellyDeviceList);
+shellyTable.addEventListener('click', selectShellyItem );
 
 //mqtt
 mqttBtn.addEventListener('click', ()=> mqttSection.classList.toggle('hidden'))
@@ -406,11 +409,9 @@ function createService(name, id, token, type){
 }
 // Shelly
 function discoverShellyDeviceList() {
-    token = tokenInput.value;
-    let data = {"token":token}
+    console.log('Discovering')
     const headers = {
-        method: "POST",
-        body : JSON.stringify(data),
+        method: "GET",
         headers: {
             "Content-Type": "application/json"
                   },
@@ -418,7 +419,7 @@ function discoverShellyDeviceList() {
         cache: "default",
       };
     
-    return fetch(`/api/devices`, headers)
+    return fetch(`/api/shelly/20`, headers)
         .then((response) => {
             if (!response.ok) {
             throw new Error(`HTTP error! Status: ${response.status}`);
@@ -426,10 +427,87 @@ function discoverShellyDeviceList() {
             return response.json();
         }).then((data) => {
             data.forEach((element) => {
-             createTable(element)});
+             shellyCreateTable(element)});
             })
         .catch((err)=> console.log(err));
 };
+
+function shellyCreateTable(e){
+
+    shellyTable.innerHTML = ""
+    const newTr = document.createElement('tr');
+    
+    const name = document.createElement('td');
+    const type = document.createElement('td');
+    const address = document.createElement('td');
+    const btn = document.createElement('button')
+    
+    name.innerText= e.deviceName;
+    type.innerText= e.deviceApp;
+    address.innerText= e.deviceAddress;
+    btn.textContent= 'create';
+    newTr.classList.add('table_item');
+
+    btn.classList.add('create-btn')
+    
+    newTr.appendChild(name);
+    newTr.appendChild(type);
+    newTr.appendChild(address);
+    newTr.appendChild(btn);
+    
+    shellyTable.appendChild(newTr);
+    
+    // tr = document.querySelectorAll('.table_item')
+};
+
+function selectShellyItem(e) {
+    let name ="";
+    let type ="";
+    let address=""
+    let item = e.target;
+    name = item.parentElement.childNodes[0].innerText;
+    type = item.parentElement.childNodes[1].innerText;
+    address = item.parentElement.childNodes[2].innerText;
+    
+    //deviceIdGlobal = comm;
+    //deviceName = name;
+    //console.log(comm)
+    // selectedDevice.innerHTML = deviceIdGlobal + ' ' + deviceName;
+    //fetchDetails(comm, name);
+
+    if (item.classList[0]==='create-btn') createService(name,type,address, 'shelly');
+
+};
+// function fetchShellyDetails(val, name) {
+//     //console.log('clicked element',val, deviceIdGlobal)
+//     let data = {"token":token}
+//     const headers = {
+//         method: "POST",
+//         body : JSON.stringify(data),
+//         headers: {
+//             "Content-Type": "application/json"
+//                   },
+//         mode: "cors",
+//         cache: "default",
+//       };
+//     return fetch(`/api/devices/${val}`, headers)
+//     .then((response) => {
+//         // Check if the fetch was successful
+//         if (!response.ok) {
+//             throw new Error(`HTTP error! Status: ${response.status}`);
+//         }
+//         //console.log(res)
+//         return response.json();
+//     })
+//     .then((data) => {
+//         //console.log(data);
+//         details = data.components.main;
+//         createList(details,container, name)
+//     })
+//     .catch((error) => {
+//         console.error('Fetch error!!!:', error);
+//     });
+// }
 
 
 //classes
