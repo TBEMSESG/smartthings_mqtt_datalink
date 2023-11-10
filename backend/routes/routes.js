@@ -131,6 +131,19 @@ router.get('/shelly/:time', async function (req, res) { //Shelly
         });
 });
 
+router.get('/mdns/:time', async function (req, res) { //Shelly
+ 
+    await shelly.discovermDns(req.params.time)
+        .then((result) => {
+        console.log(result)
+        res.status(200).send(result); 
+        })
+        .catch((error) => {
+            console.error(error);
+            res.status(500).send('Internal Server Error');
+        });
+});
+
 // function to convert Object to XML (for DataLink)
 function OBJtoXML(obj) {
     var xml = '';

@@ -32,7 +32,40 @@ function discoverShelly(time) {
     });
   }
 
-  async function getDeviceFullStatus(address, name) {
+// testing only, not needed in prod.
+function discovermDns(time) {
+    return new Promise((resolve) => {
+        let devicesList = [];
+        console.log('Searching for devices...');
+  
+      // Start browsing for Shelly devices
+      const browser = bonjour.find({ }, function (service) {
+        console.log('Service found:', service); // Log every service found
+
+        // Check if the device is a Shelly device
+        
+          const device = {
+            deviceName: service.name,
+            details: service
+            // deviceAddress: service.addresses[0],  // Assuming IPv4 address is first, you might want to handle this differently
+            // deviceApp : service.txt.app
+          };
+          devicesList.push(device);
+        
+      });
+  
+      // Stop searching after 'time' seconds
+      setTimeout(() => {
+        browser.stop();
+        // bonjour.destroy();
+        console.log('Search completed. Devices found:', devicesList.length);
+
+        resolve(devicesList);  // Resolve the promise with the list of devices
+      }, time * 1000);
+    });
+  }
+
+async function getDeviceFullStatus(address, name) {
     console.log(`Received full status request for Shelly device ${name}
     Fetching status from http://${address}/status `)
   
@@ -52,4 +85,4 @@ function discoverShelly(time) {
         .catch((err)=> console.log('New Errors, sorry for that: ',err));
   }
 
-module.exports = {discoverShelly, getDeviceFullStatus};
+module.exports = {discoverShelly, getDeviceFullStatus, discovermDns};

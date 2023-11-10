@@ -71,7 +71,7 @@ Feel free to change the device name to whatever best describes your device.
 If your personal token has change, you can update it here.
 there is no type of protection: entering a wrong token or changing the deviceId could corrupt your service.
 
-##Smartthings
+## Smartthings
 
 !!!INFO To use the Smartthings API, a personal token is needed. [Find the needed information here](https://developer.smartthings.com/docs/advanced/authorization-and-permissions)
 
@@ -84,5 +84,19 @@ click on `smartthings` under **Create new Services**
 Enter your smartthing personal token and click `Get Devices`
 As you see the list of devices associated with your personal token, you can click on the name of one of the device, to see the current status of the device
 ![Alt text](/images/deviceList.png)
+If you wish to add the device to the tool, that it can be used for DataLink or W-Player, just click on `create`.
+The device is the added as a service and immediately available to be used.
+
+## Shelly IoT Devices
+
+Important: 
+This tool cannot handle Shelly devices that need an authentication. (To be integrated later) 
+
+### Add new device as a service
+click on `Shelly` under **Create new Services** 
+Click in `Discover` to start the discovering process. This uses mDns broadcasts to find shelly devices. 
+The discovery runs 20 seconds. (this may be changed or allow personalization in future).
+A list of found devices is returned.
+
 If you wish to add the device to the tool, that it can be used for DataLink or W-Player, just click on `create`.
 The device is the added as a service and immediately available to be used.
