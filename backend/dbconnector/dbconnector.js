@@ -54,10 +54,10 @@ async function writeService(data) {
     const collection = db.collection('services');
   
     const findResult = await collection.find({serviceId:sId}).toArray();
-    console.log('Encrypted =>', findResult[0].token);
+    //console.log('Encrypted =>', findResult[0].token);
     const token = cryptr.decrypt(findResult[0].token);
     findResult[0].token = token; 
-    console.log('deCrypted =>', findResult[0].token);
+    //console.log('deCrypted =>', findResult[0].token);
   
     return findResult;
   }
