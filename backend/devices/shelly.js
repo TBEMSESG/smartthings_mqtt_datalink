@@ -32,5 +32,24 @@ function discoverShelly(time) {
     });
   }
 
+  async function getDeviceFullStatus(address, name) {
+    console.log(`Received full status request for Shelly device ${name}
+    Fetching status from http://${address}/status `)
+  
+    const headers = {
+          method: "GET",
+          mode: "no-cors",
+          cache: "default",
+        };;
+      return fetch(`http://${address}/status`, headers)
+      .then((response) => {
+          if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+          }
+          return response.json();
+          
+        })
+        .catch((err)=> console.log('New Errors, sorry for that: ',err));
+  }
 
-module.exports = {discoverShelly};
+module.exports = {discoverShelly, getDeviceFullStatus};

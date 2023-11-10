@@ -44,10 +44,21 @@ router.get('/services', function (req, res) { //Common
 });
 router.get('/services/:id/:type', async function (req, res) { //smartthing tbc
     try {
+
         const serviceDetails = await connector.getServiceDetails(req.params.id);
-                
-        const deviceStatus = await smartthings.getDeviceFullStatus(serviceDetails[0].token, serviceDetails[0].deviceId);
-        //console.log('Response as XML =>> ',OBJtoXML(deviceStatus))
+        let deviceStatus = {};
+        
+        //check which device type is requested:
+        switch (serviceDetails[0].type) {
+            case 'smartthings':
+              console.log('Device is a smartthings device');
+              deviceStatus = await smartthings.getDeviceFullStatus(serviceDetails[0].token, serviceDetails[0].deviceId);
+              break;
+            case 'shelly':
+              console.log('Device is a shelly device');
+              deviceStatus = await shelly.getDeviceFullStatus(serviceDetails[0].ipaddress, serviceDetails[0].deviceName);
+              break;
+        }
         
         if (req.params.type == 'json') res.status(200).send(deviceStatus);
         if (req.params.type == 'xml') res.status(200).send(OBJtoXML(deviceStatus)); 

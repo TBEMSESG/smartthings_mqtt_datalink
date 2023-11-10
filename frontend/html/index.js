@@ -162,7 +162,7 @@ function selectItem(e) {
     // selectedDevice.innerHTML = deviceIdGlobal + ' ' + deviceName;
     fetchDetails(comm, name);
 
-    if (item.classList[0]==='create-btn') createService(deviceName,deviceIdGlobal,token, 'smartthings');
+    if (item.classList[0]==='create-btn') createService(deviceName,deviceIdGlobal ,token, 'smartthings','NA');
 
 };
 function fetchDetails(val, name) {
@@ -377,9 +377,9 @@ function createServicestable(e){
         servicesTable.appendChild(newTr);
         
 };
-function createService(name, id, token, type){
+function createService(name, id, token, type, address){
 
-    let data = new Service(name,id,token, type);
+    let data = new Service(name,id,token, type, address);
 
     const headers = {
         method: "POST",
@@ -401,13 +401,14 @@ function createService(name, id, token, type){
         // response.json();
         return response;
     })
-    .then((data) => {
+    .then(() => {
         getServicesList();
     })
     .catch((error) => {
         console.error('Fetch error!!!:', error);
     });
 }
+
 // Shelly
 function discoverShellyDeviceList() {
     console.log('Discovering')
@@ -422,7 +423,7 @@ function discoverShellyDeviceList() {
         cache: "default",
       };
     
-    return fetch(`/api/shelly/10`, headers)
+    return fetch(`/api/shelly/20`, headers)
         .then((response) => {
             if (!response.ok) {
             throw new Error(`HTTP error! Status: ${response.status}`);
@@ -482,9 +483,10 @@ function selectShellyItem(e) {
     // selectedDevice.innerHTML = deviceIdGlobal + ' ' + deviceName;
     //fetchDetails(comm, name);
 
-    if (item.classList[0]==='create-btn') createService(name,type,address, 'shelly');
+    if (item.classList[0]==='create-btn') createService(name,type,'', 'shelly',address);
 
 };
+
 // function fetchShellyDetails(val, name) {
 //     //console.log('clicked element',val, deviceIdGlobal)
 //     let data = {"token":token}
@@ -518,6 +520,7 @@ function selectShellyItem(e) {
 
 
 //classes
+
 class Service {
     constructor(name, deviceid, token, type, ipaddress) {
         this.deviceName = name

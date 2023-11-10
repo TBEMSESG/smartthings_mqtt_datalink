@@ -1,12 +1,14 @@
 version: '3'
 
 services:
+  #db for services. Stores encrpted tokens where needed.
   db:
     build: ./db/
     networks:
       - intern
     ports:
       - "27017:27017"
+
   #avahi is bridge between contaier and host for mDns forwarding
   avahi:
     image: flungo/avahi
@@ -21,11 +23,8 @@ services:
 
   backend:
     build: ./backend/
-    # network_mode: host
     networks:
       intern:
-      # physical1:
-      #   ipv4_address: 10.10.10.221
     ports:
       - "3000:3000"
       - "5353:5353/udp"
@@ -74,9 +73,7 @@ networks:
   # traefik-proxy:
       # external: true
   intern:
-  # my_custom_network:
-  #     mode: host
-  #     external: true
+
   physical1:
     driver: macvlan
     driver_opts:
