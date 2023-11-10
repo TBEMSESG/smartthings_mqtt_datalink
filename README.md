@@ -100,6 +100,6 @@ click on `Shelly` under **Create new Services**
 Click in `Discover` to start the discovering process. This uses mDns broadcasts to find shelly devices. 
 The discovery runs 20 seconds. (this may be changed or allow personalization in future).
 A list of found devices is returned.
-![Alt text](/images/shellyList.png.png)
+![Alt text](/images/shellyList.png)
 If you wish to add the device to the tool, that it can be used for DataLink or W-Player, just click on `create`.
 The device is the added as a service and immediately available to be used.
